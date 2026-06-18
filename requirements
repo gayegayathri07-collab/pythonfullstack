@@ -7,4 +7,4 @@ mysqlclient==2.2.8
 pillow==12.2.0
 sqlparse==0.5.5
 tzdata==2026.2
-gunicorn
+gunicorn==21.2.0
