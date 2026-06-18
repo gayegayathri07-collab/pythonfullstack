@@ -1,0 +1,30 @@
+{% load static %}
+<nav>
+    <div class="nav-inner">
+        <a href="{% url 'students:index' %}" class="brand">
+            <img src="{% static 'images/logo.svg' %}" alt="CampusHub logo">
+            CampusHub
+        </a>
+        <ul>
+            <li><a href="{% url 'students:dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'students:index' %}">Students</a></li>
+            <li><a href="{% url 'students:add_contact' %}">Add / Contact</a></li>
+        </ul>
+        <ul class="nav-auth">
+            {% if user.is_authenticated %}
+                <li><span>Hello, {{ user.username }}</span></li>
+                <li><a href="{% url 'accounts:profile' %}">Profile</a></li>
+                <li><a href="{% url 'accounts:password_change' %}">Change Password</a></li>
+                <li>
+                    <form method="post" action="{% url 'accounts:logout' %}" style="display:inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-link">Logout</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                <li><a href="{% url 'accounts:register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

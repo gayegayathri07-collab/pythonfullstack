@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Profile | CampusHub{% endblock %}
+{% block content %}
+<div class="profile">
+    <h1>Profile</h1>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Joined:</strong> {{ user.date_joined|date:"d M Y" }}</p>
+    <p><strong>Last login:</strong> {{ user.last_login|date:"d M Y H:i" }}</p>
+</div>
+{% endblock %}

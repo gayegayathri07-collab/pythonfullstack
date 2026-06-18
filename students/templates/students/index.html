@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load student_extras %}
+
+{% block title %}Students | CampusHub{% endblock %}
+
+{% block content %}
+<style>
+.toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; gap:1rem; flex-wrap:wrap; }
+.toolbar h1 { margin:0; font-size:1.5rem; color:#1e293b; }
+.search-form { display:flex; gap:0.5rem; }
+.search-form input { padding:8px 12px; border:1.5px solid #e2e8f0; border-radius:8px; font-size:0.9rem; }
+.search-form input:focus { border-color:#4f46e5; outline:none; }
+.search-form button { padding:8px 16px; background:#4f46e5; color:#fff; border:none; border-radius:8px; cursor:pointer; }
+
+.seq-list { display:flex; flex-direction:column; gap:0.75rem; }
+.seq-item {
+  display:flex; align-items:center; gap:1rem; padding:0.85rem 1.2rem;
+  background:#fff; border:1px solid #e2e8f0; border-radius:12px;
+  transition:all 0.2s;
+}
+.seq-item:hover { border-color:#4f46e5; box-shadow:0 4px 12px rgba(79,70,229,0.1); transform:translateX(4px); }
+.seq-item .num {
+  width:30px; height:30px; border-radius:50%; background:#f1f5f9; color:#64748b;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.8rem; font-weight:700; flex-shrink:0;
+}
+.seq-item .num.gold { background:#fef3c7; color:#d97706; }
+.seq-item .num.silver { background:#f1f5f9; color:#475569; }
+.seq-item .num.bronze { background:#fed7aa; color:#c2410c; }
+.seq-item .avatar { width:48px; height:48px; border-radius:50%; object-fit:cover; flex-shrink:0; border:2px solid #e2e8f0; }
+.seq-item .info { flex:1; min-width:0; }
+.seq-item .info .name { font-weight:700; color:#1e293b; font-size:0.95rem; display:flex; align-items:center; gap:0.5rem; }
+.seq-item .info .name a { color:#1e293b; text-decoration:none; }
+.seq-item .info .name a:hover { color:#4f46e5; }
+.seq-item .info .meta { font-size:0.8rem; color:#64748b; margin-top:2px; display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
+.badge { display:inline-block; padding:2px 10px; border-radius:20px; font-size:0.7rem; font-weight:700; }
+.badge-cse { background:#dbeafe; color:#1d4ed8; }
+.badge-ece { background:#fef3c7; color:#b45309; }
+.badge-me { background:#d1fae5; color:#065f46; }
+.badge-eee { background:#e9d5ff; color:#7c3aed; }
+.grade { padding:2px 10px; border-radius:20px; font-size:0.7rem; font-weight:800; }
+.grade-a { background:#d1fae5; color:#065f46; }
+.grade-b { background:#fef3c7; color:#b45309; }
+.grade-c { background:#fee2e2; color:#991b1b; }
+.btn { padding:6px 14px; border:none; border-radius:8px; cursor:pointer; font-weight:600; font-size:0.8rem; text-decoration:none; display:inline-block; }
+.btn-warning { background:#f59e0b; color:#fff; }
+.btn-primary { background:#4f46e5; color:#fff; }
+.btn-success { background:#10b981; color:#fff; }
+
+.pagination { display:flex; justify-content:center; gap:0.5rem; margin-top:1.5rem; }
+.pagination a, .pagination span {
+  padding:8px 14px; border:1px solid #e2e8f0; border-radius:8px;
+  text-decoration:none; color:#1e293b; font-size:0.9rem;
+}
+.pagination .current { background:#4f46e5; color:#fff; border-color:#4f46e5; }
+.pagination a:hover { background:#f1f5f9; }
+</style>
+
+<div class="toolbar">
+  <h1>&#128218; Student Portal</h1>
+  <form class="search-form" method="get">
+    <input type="text" name="q" placeholder="Search by name..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<p style="color:#64748b;margin-bottom:1rem;">
+  {{ page_obj.paginator.count }} student(s) enrolled
+  {% if request.GET.q %} matching "{{ request.GET.q }}"{% endif %}
+  &mdash; Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+</p>
+
+<div class="seq-list">
+  {% for s in students %}
+  <div class="seq-item">
+    <div class="num {% if forloop.counter == 1 %}gold{% elif forloop.counter == 2 %}silver{% elif forloop.counter == 3 %}bronze{% endif %}">{{ page_obj.start_index|add:forloop.counter0 }}</div>
+    <div>
+      {% if s.image %}<img src="{{ s.image.url }}" alt="{{ s.name }}" class="avatar">{% else %}<img src="{% static 'images/avatar.svg' %}" alt="{{ s.name }}" class="avatar">{% endif %}
+    </div>
+    <div class="info">
+      <div class="name">
+        <a href="{% url 'students:detail' pk=s.pk %}">{{ s.name }}</a>
+        <span class="badge badge-{{ s.department.name|lower }}">{{ s.department.name }}</span>
+      </div>
+      <div class="meta">
+        <span>Roll: {{ s.roll }}</span>
+        <span>{{ s.email }}</span>
+        <span>Marks: {{ s.marks }}</span>
+        <span class="grade {% if s.marks >= 75 %}grade-a{% elif s.marks >= 60 %}grade-b{% else %}grade-c{% endif %}">{% if s.marks >= 75 %}A{% elif s.marks >= 60 %}B{% else %}C{% endif %}</span>
+      </div>
+    </div>
+    <div>
+      <a href="{% url 'students:edit_student' pk=s.pk %}" class="btn btn-warning">Edit</a>
+      <a href="{% url 'students:detail' pk=s.pk %}" class="btn btn-primary">View</a>
+    </div>
+  </div>
+  {% empty %}
+  <div style="text-align:center;color:#64748b;padding:2rem;">No students found.</div>
+  {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page=1">&laquo;</a>
+    <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ page_obj.previous_page_number }}">&lsaquo;</a>
+  {% endif %}
+  {% for n in page_obj.paginator.page_range %}
+    {% if n == page_obj.number %}
+      <span class="current">{{ n }}</span>
+    {% elif n > page_obj.number|add:"-3" and n < page_obj.number|add:"3" %}
+      <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ n }}">{{ n }}</a>
+    {% endif %}
+  {% endfor %}
+  {% if page_obj.has_next %}
+    <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ page_obj.next_page_number }}">&rsaquo;</a>
+    <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+  {% endif %}
+</div>
+{% endif %}
+
+<div style="margin-top:1rem;">
+  <a href="{% url 'students:add_student' %}" class="btn btn-success" style="padding:10px 24px;">+ Add New Student</a>
+</div>
+{% endblock %}

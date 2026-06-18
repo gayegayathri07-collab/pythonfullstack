@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ heading }} | CampusHub{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:600px; margin:0 auto;">
+    <h2>{{ heading }}</h2>
+    <hr>
+    {% if form.non_field_errors %}
+        <div style="background:#ffe0e0; padding:10px; border-radius:6px; margin-bottom:1rem;">
+            {% for err in form.non_field_errors %}
+                <small style="color:#c0392b;">{{ err }}</small><br>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <p>
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+                <br><small style="color:#95a5a6;">{{ field.help_text }}</small>
+            {% endif %}
+            {% if field.errors %}
+                {% for err in field.errors %}
+                <br><small style="color:#e74c3c;">{{ err }}</small>
+                {% endfor %}
+            {% endif %}
+        </p>
+        {% endfor %}
+        <hr>
+        <button type="submit" style="padding:8px 24px; background:#3498db; color:#fff; border:none; border-radius:6px; cursor:pointer;">Save</button>
+        <a href="{% url 'students:index' %}" style="padding:8px 24px; background:#95a5a6; color:#fff; text-decoration:none; border-radius:6px; margin-left:8px;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

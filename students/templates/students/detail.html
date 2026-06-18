@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ s.name }} | CampusHub{% endblock %}
+
+{% block content %}
+<style>
+.profile-card {
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(10px);
+  border-radius:20px;
+  padding:2.5rem 2rem;
+  box-shadow:0 10px 40px rgba(0,0,0,0.08);
+  border:1px solid rgba(255,255,255,0.8);
+  max-width:600px;
+  margin:0 auto;
+}
+.profile-header { text-align:center; margin-bottom:2rem; }
+.profile-header .avatar-frame {
+  width:130px; height:130px; border-radius:50%;
+  margin:0 auto 1rem;
+  padding:4px;
+  background:linear-gradient(135deg,#4f46e5,#a855f7);
+  display:flex; align-items:center; justify-content:center;
+}
+.profile-header .avatar-frame img {
+  width:100%; height:100%; border-radius:50%;
+  object-fit:cover; border:3px solid #fff;
+}
+.profile-header h2 { font-size:1.6rem; color:#1e293b; margin-bottom:0.2rem; }
+.profile-header .subtitle { color:#64748b; font-size:0.9rem; }
+.detail-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0.8rem 0; border-bottom:1px solid #f1f5f9;
+}
+.detail-row:last-child { border-bottom:none; }
+.detail-row .label { color:#64748b; font-weight:500; font-size:0.9rem; }
+.detail-row .value { color:#1e293b; font-weight:600; font-size:0.95rem; }
+.btn-group { display:flex; gap:8px; margin-top:1.5rem; justify-content:center; }
+.btn {
+  padding:10px 24px; border:none; border-radius:10px; cursor:pointer;
+  font-weight:600; font-size:0.85rem; display:inline-block; text-decoration:none;
+  transition:all 0.2s;
+}
+.btn:hover { transform:translateY(-2px); }
+.btn-warning { background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; }
+.btn-danger { background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; }
+.btn-ghost { background:#f1f5f9; color:#64748b; }
+.back-link { color:#4f46e5; text-decoration:none; font-weight:500; display:inline-flex; align-items:center; gap:4px; margin-top:1rem; justify-content:center; }
+.back-link:hover { text-decoration:underline; }
+</style>
+
+<div class="profile-card">
+  <div class="profile-header">
+    <div class="avatar-frame">
+      {% if s.image %}
+      <img src="{{ s.image.url }}" alt="{{ s.name }}">
+      {% else %}
+      <img src="{% static 'images/avatar.svg' %}" alt="{{ s.name }}">
+      {% endif %}
+    </div>
+    <h2>{{ s.name|title }}</h2>
+    <div class="subtitle">{{ s.department.name|upper }} Department</div>
+  </div>
+
+  <div class="detail-row"><span class="label">&#128214; Roll Number</span><span class="value">{{ s.roll }}</span></div>
+  <div class="detail-row"><span class="label">&#64; Email</span><span class="value">{{ s.email }}</span></div>
+  <div class="detail-row"><span class="label">&#127942; Marks</span><span class="value">{{ s.marks }}</span></div>
+  <div class="detail-row"><span class="label">&#11088; Grade</span><span class="value">{% if s.marks >= 75 %}A{% elif s.marks >= 60 %}B{% else %}C{% endif %}</span></div>
+  <div class="detail-row"><span class="label">&#128197; Admitted</span><span class="value">{{ s.admitted|date:"d M Y" }}</span></div>
+
+  {% if s.bio %}
+  <div class="detail-row"><span class="label">&#128221; Bio</span><span class="value" style="text-align:right;max-width:60%;">{{ s.bio }}</span></div>
+  {% endif %}
+  {% if s.resume %}
+  <div class="detail-row"><span class="label">&#128196; Resume</span><span class="value"><a href="{{ s.resume.url }}" download style="color:#4f46e5;">Download ({{ s.resume.size|filesizeformat }})</a></span></div>
+  {% endif %}
+
+  <div class="btn-group">
+    <a href="{% url 'students:edit_student' pk=s.pk %}" class="btn btn-warning">&#9998; Edit</a>
+    <a href="{% url 'students:delete_student' pk=s.pk %}" class="btn btn-danger">&#128465; Delete</a>
+  </div>
+  <div style="text-align:center;">
+    <a href="{% url 'students:index' %}" class="back-link">&larr; Back to Student List</a>
+  </div>
+</div>
+{% endblock %}

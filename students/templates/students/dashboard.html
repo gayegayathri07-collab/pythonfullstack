@@ -1,0 +1,373 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load student_extras %}
+
+{% block title %}CampusHub - Dashboard{% endblock %}
+
+{% block content %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070d; color:#e2e8f0; }
+
+.hero {
+  background:linear-gradient(135deg,#07070d 0%,#141428 30%,#1a0a3e 60%,#2d1b69 100%);
+  padding:4rem 2rem; border-radius:24px; margin-bottom:2rem; text-align:center;
+  position:relative; overflow:hidden; border:1px solid rgba(255,255,255,0.05);
+}
+.hero::before {
+  content:''; position:absolute; top:-50%; right:-10%; width:700px; height:700px;
+  background:radial-gradient(circle,rgba(124,58,237,0.12) 0%,transparent 60%);
+  border-radius:50%; animation:heroGlow 6s ease-in-out infinite alternate;
+}
+.hero::after {
+  content:''; position:absolute; bottom:-40%; left:-5%; width:500px; height:500px;
+  background:radial-gradient(circle,rgba(79,70,229,0.08) 0%,transparent 60%);
+  border-radius:50%; animation:heroGlow2 8s ease-in-out infinite alternate;
+}
+@keyframes heroGlow { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(30px,-20px) scale(1.1)} }
+@keyframes heroGlow2 { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(-30px,20px) scale(1.15)} }
+.hero h1 {
+  font-size:3rem; font-weight:900; margin-bottom:0.4rem; position:relative;
+  background:linear-gradient(135deg,#fff 0%,#c4b5fd 40%,#a78bfa 70%,#7c3aed 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  letter-spacing:-1.5px; animation:titleFade 1s ease-out;
+}
+@keyframes titleFade { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+.hero p { opacity:0.5; font-size:1rem; position:relative; color:#94a3b8; letter-spacing:0.3px; }
+
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1rem; margin-bottom:2rem; }
+.stat {
+  background:rgba(255,255,255,0.02); backdrop-filter:blur(12px);
+  border-radius:16px; padding:1.4rem 1rem; text-align:center;
+  border:1px solid rgba(255,255,255,0.04); transition:all 0.5s cubic-bezier(0.4,0,0.2,1);
+  cursor:default; position:relative; overflow:hidden;
+}
+.stat::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,#a78bfa,transparent);
+  opacity:0; transition:opacity 0.5s;
+}
+.stat:hover::after { opacity:1; }
+.stat:hover { transform:translateY(-8px) scale(1.02); border-color:rgba(167,139,250,0.2); background:rgba(124,58,237,0.06); box-shadow:0 30px 60px rgba(0,0,0,0.4); }
+.stat .icon { font-size:1.8rem; margin-bottom:0.5rem; display:inline-block; }
+.stat:hover .icon { animation:bounce 0.5s ease; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-8px)} 60%{transform:translateY(-4px)} }
+.stat .n { font-size:2.2rem; font-weight:900; background:linear-gradient(135deg,#e2e8f0,#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.stat .l { font-size:0.65rem; color:#64748b; text-transform:uppercase; letter-spacing:1.2px; font-weight:600; margin-top:4px; }
+
+.section {
+  background:rgba(255,255,255,0.02); backdrop-filter:blur(12px);
+  border-radius:20px; padding:1.5rem; margin-bottom:1.5rem;
+  border:1px solid rgba(255,255,255,0.04); transition:all 0.4s;
+}
+.section:hover { border-color:rgba(124,58,237,0.12); box-shadow:0 8px 40px rgba(0,0,0,0.15); }
+.section h2 {
+  color:#e2e8f0; margin-bottom:1rem; padding-bottom:0.6rem;
+  border-bottom:1px solid rgba(255,255,255,0.04); font-size:1.15rem;
+  display:flex; align-items:center; gap:0.6rem; font-weight:700;
+}
+
+.form-group { margin-bottom:1rem; }
+.form-group label { display:block; font-weight:500; color:#94a3b8; margin-bottom:6px; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.8px; }
+.form-group input,.form-group select,.form-group textarea {
+  width:100%; padding:13px 16px; border:1px solid rgba(255,255,255,0.06); border-radius:12px;
+  font-size:0.9rem; background:rgba(0,0,0,0.3); color:#e2e8f0; transition:all 0.35s;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus {
+  border-color:#7c3aed; outline:none; box-shadow:0 0 0 4px rgba(124,58,237,0.1);
+  background:rgba(0,0,0,0.4);
+}
+.form-group input[type="file"] { padding:10px; color:#94a3b8; cursor:pointer; }
+
+.btn {
+  padding:13px 32px; border:none; border-radius:12px; cursor:pointer;
+  font-weight:700; font-size:0.85rem; display:inline-block; text-decoration:none;
+  transition:all 0.35s cubic-bezier(0.4,0,0.2,1); letter-spacing:0.3px; position:relative; overflow:hidden;
+}
+.btn::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,0.08); translate:-100% 0; transition:translate 0.5s; }
+.btn:hover::after { translate:100% 0; }
+.btn:hover { transform:translateY(-4px) scale(1.02); box-shadow:0 16px 40px rgba(0,0,0,0.35); }
+.btn:active { transform:translateY(-1px) scale(0.98); }
+.btn-primary { background:linear-gradient(135deg,#7c3aed,#4f46e5); color:#fff; }
+.btn-success { background:linear-gradient(135deg,#059669,#10b981); color:#fff; }
+.btn-warning { background:linear-gradient(135deg,#d97706,#f59e0b); color:#fff; }
+.btn-sm { padding:8px 20px; font-size:0.75rem; }
+
+.alert { padding:14px 20px; border-radius:14px; margin-bottom:1rem; font-weight:500; font-size:0.9rem; animation:slideAlert 0.4s ease; }
+@keyframes slideAlert { from{opacity:0;transform:translateY(-12px) scale(0.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+.alert-success { background:rgba(16,185,129,0.08); color:#34d399; border:1px solid rgba(16,185,129,0.15); backdrop-filter:blur(8px); }
+
+/* ===== Sequential Student Gallery ===== */
+.gallery { display:flex; flex-direction:column; gap:0.7rem; margin-top:0.5rem; }
+
+.gallery .g-item {
+  display:flex; align-items:center; gap:1.2rem;
+  padding:1rem 1.2rem;
+  background:rgba(255,255,255,0.015); border:1px solid rgba(255,255,255,0.04);
+  border-radius:16px; transition:all 0.5s cubic-bezier(0.4,0,0.2,1);
+  position:relative; overflow:hidden; animation:itemSlide 0.4s ease forwards;
+  opacity:0; transform:translateX(-20px);
+}
+@keyframes itemSlide { to{opacity:1;transform:translateX(0)} }
+.gallery .g-item:nth-child(1){animation-delay:0.05s}
+.gallery .g-item:nth-child(2){animation-delay:0.1s}
+.gallery .g-item:nth-child(3){animation-delay:0.15s}
+.gallery .g-item:nth-child(4){animation-delay:0.2s}
+.gallery .g-item:nth-child(5){animation-delay:0.25s}
+.gallery .g-item:nth-child(6){animation-delay:0.3s}
+.gallery .g-item:nth-child(7){animation-delay:0.35s}
+.gallery .g-item:nth-child(8){animation-delay:0.4s}
+.gallery .g-item:nth-child(9){animation-delay:0.45s}
+.gallery .g-item:nth-child(10){animation-delay:0.5s}
+
+.gallery .g-item::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:linear-gradient(180deg,#7c3aed,#4f46e5,#a78bfa);
+  border-radius:0 3px 3px 0; opacity:0; transition:opacity 0.5s;
+}
+.gallery .g-item:hover::before { opacity:1; }
+.gallery .g-item:hover {
+  border-color:rgba(124,58,237,0.2); transform:translateX(8px) scale(1.005);
+  background:rgba(124,58,237,0.04); box-shadow:0 12px 40px rgba(0,0,0,0.25);
+}
+.gallery .g-item:active { transform:translateX(4px) scale(0.985); }
+
+.g-item .rank {
+  width:38px; height:38px; border-radius:50%;
+  background:rgba(255,255,255,0.03); color:#64748b;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.8rem; font-weight:800; flex-shrink:0;
+  transition:all 0.5s; border:1px solid rgba(255,255,255,0.04);
+}
+.g-item:hover .rank { transform:scale(1.15) rotate(-5deg); }
+.g-item .rank.gold { background:linear-gradient(135deg,#f59e0b,#fbbf24); color:#0f0f1a; border-color:#f59e0b; box-shadow:0 0 25px rgba(245,158,11,0.3); }
+.g-item .rank.silver { background:linear-gradient(135deg,#94a3b8,#cbd5e1); color:#0f0f1a; border-color:#94a3b8; box-shadow:0 0 20px rgba(148,163,184,0.15); }
+.g-item .rank.bronze { background:linear-gradient(135deg,#d97706,#fbbf24); color:#0f0f1a; border-color:#d97706; box-shadow:0 0 20px rgba(217,119,6,0.2); }
+
+.g-item .photo-wrap {
+  width:64px; height:64px; border-radius:50%; padding:3px;
+  background:linear-gradient(135deg,rgba(124,58,237,0.25),rgba(79,70,229,0.25));
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  transition:all 0.5s;
+}
+.g-item:hover .photo-wrap { transform:scale(1.12) rotate(-3deg); background:linear-gradient(135deg,#7c3aed,#4f46e5); box-shadow:0 8px 30px rgba(124,58,237,0.3); }
+.g-item .photo-wrap img {
+  width:100%; height:100%; border-radius:50%; object-fit:cover;
+  border:2px solid #07070d;
+}
+
+.g-item .details { flex:1; min-width:0; }
+.g-item .details .name {
+  font-weight:700; color:#f1f5f9; font-size:1rem;
+  display:flex; align-items:center; gap:0.5rem;
+}
+.g-item .details .name a { color:#f1f5f9; text-decoration:none; transition:color 0.25s; }
+.g-item .details .name a:hover { color:#a78bfa; }
+.g-item .details .tags { display:flex; align-items:center; gap:0.6rem; margin-top:4px; flex-wrap:wrap; }
+.g-item .details .tags span { font-size:0.75rem; color:#64748b; display:flex; align-items:center; gap:3px; }
+
+.badge { display:inline-block; padding:2px 10px; border-radius:20px; font-size:0.6rem; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; }
+.badge-cse { background:rgba(59,130,246,0.12); color:#60a5fa; border:1px solid rgba(59,130,246,0.1); }
+.badge-ece { background:rgba(245,158,11,0.12); color:#fbbf24; border:1px solid rgba(245,158,11,0.1); }
+.badge-me { background:rgba(16,185,129,0.12); color:#34d399; border:1px solid rgba(16,185,129,0.1); }
+.badge-eee { background:rgba(168,85,247,0.12); color:#c084fc; border:1px solid rgba(168,85,247,0.1); }
+
+.grade { padding:2px 10px; border-radius:20px; font-size:0.6rem; font-weight:800; }
+.grade-a { background:rgba(16,185,129,0.12); color:#34d399; border:1px solid rgba(16,185,129,0.1); }
+.grade-b { background:rgba(245,158,11,0.12); color:#fbbf24; border:1px solid rgba(245,158,11,0.1); }
+.grade-c { background:rgba(239,68,68,0.12); color:#f87171; border:1px solid rgba(239,68,68,0.1); }
+
+.g-item .actions { display:flex; gap:0.4rem; flex-shrink:0; }
+
+.admin-card {
+  background:linear-gradient(135deg,#1e1b4b,#312e81,#4c1d95);
+  border-radius:24px; padding:2.5rem 2rem; text-align:center;
+  border:1px solid rgba(255,255,255,0.06); box-shadow:0 30px 60px rgba(76,29,149,0.2);
+  margin-bottom:1.5rem; position:relative; overflow:hidden;
+  transition:all 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.admin-card::before {
+  content:''; position:absolute; top:-60%; right:-15%; width:500px; height:500px;
+  background:radial-gradient(circle,rgba(167,139,250,0.06) 0%,transparent 60%);
+  border-radius:50%; animation:adminGlow 8s ease-in-out infinite alternate;
+}
+.admin-card::after {
+  content:''; position:absolute; bottom:-40%; left:-10%; width:350px; height:350px;
+  background:radial-gradient(circle,rgba(79,70,229,0.05) 0%,transparent 60%);
+  border-radius:50%; animation:adminGlow2 10s ease-in-out infinite alternate;
+}
+@keyframes adminGlow { 0%{transform:translate(0,0)} 100%{transform:translate(40px,-20px)} }
+@keyframes adminGlow2 { 0%{transform:translate(0,0)} 100%{transform:translate(-30px,30px)} }
+.admin-card:hover { transform:translateY(-6px) scale(1.01); box-shadow:0 40px 80px rgba(76,29,149,0.35); }
+.admin-card .shield { font-size:3.5rem; margin-bottom:0.5rem; position:relative; display:inline-block; animation:float 3s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.admin-card h3 { font-size:1.4rem; margin-bottom:0.3rem; color:#f1f5f9; font-weight:800; position:relative; letter-spacing:-0.3px; }
+.admin-card .desc { opacity:0.5; font-size:0.85rem; margin-bottom:1.2rem; color:#c4b5fd; position:relative; }
+.admin-card .features { display:flex; gap:0.8rem; justify-content:center; margin-bottom:1.3rem; flex-wrap:wrap; position:relative; }
+.admin-card .features span { font-size:0.7rem; color:#a78bfa; background:rgba(255,255,255,0.04); padding:6px 14px; border-radius:20px; border:1px solid rgba(167,139,250,0.1); backdrop-filter:blur(4px); }
+.admin-card a {
+  display:inline-block; padding:15px 40px;
+  background:linear-gradient(135deg,#a78bfa,#7c3aed); color:#fff;
+  border-radius:16px; text-decoration:none; font-weight:700; font-size:0.9rem;
+  transition:all 0.4s; position:relative; letter-spacing:0.5px;
+  box-shadow:0 8px 30px rgba(124,58,237,0.25);
+}
+.admin-card a:hover { transform:translateY(-5px) scale(1.03); box-shadow:0 20px 50px rgba(124,58,237,0.4); }
+.admin-card a:active { transform:translateY(-1px) scale(0.98); }
+.admin-card .login-hint { margin-top:1.2rem; opacity:0.3; font-size:0.7rem; color:#c4b5fd; position:relative; letter-spacing:0.5px; }
+
+.dept-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.dept-card {
+  background:linear-gradient(145deg,rgba(255,255,255,0.02),rgba(255,255,255,0.05));
+  padding:1.3rem; border-radius:18px; text-align:center;
+  border:1px solid rgba(255,255,255,0.04); transition:all 0.5s cubic-bezier(0.4,0,0.2,1);
+  position:relative; overflow:hidden;
+}
+.dept-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  opacity:0; transition:opacity 0.5s;
+}
+.dept-card:nth-child(1)::before { background:linear-gradient(90deg,#3b82f6,#60a5fa,#3b82f6); }
+.dept-card:nth-child(2)::before { background:linear-gradient(90deg,#f59e0b,#fbbf24,#f59e0b); }
+.dept-card:nth-child(3)::before { background:linear-gradient(90deg,#10b981,#34d399,#10b981); }
+.dept-card:nth-child(4)::before { background:linear-gradient(90deg,#a855f7,#c084fc,#a855f7); }
+.dept-card:hover::before { opacity:1; }
+.dept-card:hover { transform:translateY(-8px) scale(1.02); border-color:rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); box-shadow:0 20px 50px rgba(0,0,0,0.25); }
+.dept-card .dept-icon { font-size:2.2rem; margin-bottom:0.3rem; display:inline-block; }
+.dept-card:hover .dept-icon { animation:bounce 0.6s ease; }
+.dept-card .name { font-weight:800; font-size:1.05rem; color:#f1f5f9; letter-spacing:0.5px; }
+.dept-card .info { color:#64748b; font-size:0.78rem; margin-top:4px; }
+.dept-card .count-badge {
+  display:inline-block; padding:3px 12px; border-radius:12px;
+  font-size:0.65rem; font-weight:700; margin-top:8px;
+  backdrop-filter:blur(4px);
+}
+.dept-card:nth-child(1) .count-badge { background:rgba(59,130,246,0.1); color:#60a5fa; border:1px solid rgba(59,130,246,0.1); }
+.dept-card:nth-child(2) .count-badge { background:rgba(245,158,11,0.1); color:#fbbf24; border:1px solid rgba(245,158,11,0.1); }
+.dept-card:nth-child(3) .count-badge { background:rgba(16,185,129,0.1); color:#34d399; border:1px solid rgba(16,185,129,0.1); }
+.dept-card:nth-child(4) .count-badge { background:rgba(168,85,247,0.1); color:#c084fc; border:1px solid rgba(168,85,247,0.1); }
+</style>
+
+<div class="hero">
+  <h1>&#127891; CampusHub</h1>
+  <p>Django &mdash; Routing &bull; Templates &bull; ORM &bull; Forms &bull; CBV &bull; File Upload</p>
+</div>
+
+{% if add_success %}<div class="alert alert-success">{{ add_success }}</div>{% endif %}
+
+<div class="stats">
+  <div class="stat"><div class="icon">&#127891;</div><div class="n">{{ stats.total_students }}</div><div class="l">Students</div></div>
+  <div class="stat"><div class="icon">&#11088;</div><div class="n">{{ stats.avg_marks|floatformat:1 }}</div><div class="l">Avg Marks</div></div>
+  <div class="stat"><div class="icon">&#127942;</div><div class="n">{{ stats.top_marks }}</div><div class="l">Highest</div></div>
+  <div class="stat"><div class="icon">&#128196;</div><div class="n">{{ stats.total_depts }}</div><div class="l">Departments</div></div>
+</div>
+
+<div class="section">
+  <h2>&#10010; Add Student</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="add_student" value="1">
+    {% if add_form.non_field_errors %}
+    <div class="alert alert-error">{% for e in add_form.non_field_errors %}{{ e }}{% endfor %}</div>
+    {% endif %}
+    {% for field in add_form %}
+    <div class="form-group">
+      <label>{{ field.label }}</label>
+      {{ field }}
+      {% if field.errors %}{% for e in field.errors %}<small style="color:#f87171;">{{ e }}</small>{% endfor %}{% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-success">&#10003; Add Student</button>
+  </form>
+</div>
+
+<div class="section">
+  <h2>&#9993; Contact</h2>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="contact_submit" value="1">
+    {% for field in contact_form %}
+    <div class="form-group">
+      <label>{{ field.label }}</label>
+      {{ field }}
+      {% if field.errors %}{% for e in field.errors %}<small style="color:#f87171;">{{ e }}</small>{% endfor %}{% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">&#10148; Send</button>
+  </form>
+</div>
+
+<div class="section">
+  <h2>&#128218; Student Gallery</h2>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;">
+    <span style="font-size:0.85rem;color:#64748b;">&#9733; Ranked by marks &middot; {{ students|length }} total</span>
+    <a href="{% url 'students:add_contact' %}" class="btn btn-success btn-sm">+ Add / Contact</a>
+  </div>
+  <div class="gallery">
+    {% for s in students %}
+    <div class="g-item">
+      <div class="rank {% if forloop.counter == 1 %}gold{% elif forloop.counter == 2 %}silver{% elif forloop.counter == 3 %}bronze{% endif %}">{{ forloop.counter }}</div>
+      <div class="photo-wrap">
+        {% if s.image %}
+        <img src="{{ s.image.url }}" alt="{{ s.name }}">
+        {% else %}
+        <img src="{% static 'images/avatar.svg' %}" alt="{{ s.name }}">
+        {% endif %}
+      </div>
+      <div class="details">
+        <div class="name">
+          <a href="{% url 'students:detail' pk=s.pk %}">{{ s.name }}</a>
+          <span class="badge badge-{{ s.department.name|lower }}">{{ s.department.name }}</span>
+        </div>
+        <div class="tags">
+          <span>#{{ s.roll }}</span>
+          <span>{{ s.email }}</span>
+          <span>{{ s.marks }}%</span>
+          <span class="grade {% if s.marks >= 75 %}grade-a{% elif s.marks >= 60 %}grade-b{% else %}grade-c{% endif %}">{% if s.marks >= 75 %}A{% elif s.marks >= 60 %}B{% else %}C{% endif %}</span>
+        </div>
+      </div>
+      <div class="actions">
+        <a href="{% url 'students:edit_student' pk=s.pk %}" class="btn btn-warning btn-sm">Edit</a>
+        <a href="{% url 'students:detail' pk=s.pk %}" class="btn btn-primary btn-sm">View</a>
+      </div>
+    </div>
+    {% empty %}
+    <div style="text-align:center;color:#64748b;padding:3rem;">&#128373; No students registered yet.</div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="admin-card">
+  <div class="shield">&#128274;</div>
+  <h3>Django Admin Panel</h3>
+  <p class="desc">Full back-office control for administrators</p>
+  <div class="features">
+    <span>&#10003; CRUD</span>
+    <span>&#128269; Search</span>
+    <span>&#128451; Filters</span>
+    <span>&#128737; Permissions</span>
+  </div>
+  <a href="/admin/" target="_blank">&#128279; Open Admin Panel</a>
+  <div class="login-hint">Login: admin / admin123</div>
+</div>
+
+<div class="section">
+  <h2>&#128202; Department Analytics</h2>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;">
+    <span style="font-size:0.85rem;color:#64748b;">&#128200; Performance overview by department</span>
+  </div>
+  <div class="dept-grid">
+    {% for d in stats.dept_stats %}
+    <div class="dept-card">
+      <div class="dept-icon">
+        {% if d.name == 'CSE' %}&#128187;{% elif d.name == 'ECE' %}&#128268;{% elif d.name == 'ME' %}&#9881;{% elif d.name == 'EEE' %}&#9889;{% else %}&#127891;{% endif %}
+      </div>
+      <div class="name">{{ d.name }}</div>
+      <div class="info">{{ d.n }} student{% if d.n != 1 %}s{% endif %} &middot; Avg {{ d.avg_marks|floatformat:1|default:"&mdash;" }}</div>
+      <div class="count-badge">{{ d.n }} enrolled</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

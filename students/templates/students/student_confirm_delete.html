@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Delete {{ object.name }} | CampusHub{% endblock %}
+{% block content %}
+<div class="card" style="max-width:500px; margin:2rem auto; text-align:center;">
+    <h2>Delete Student</h2>
+    <hr>
+    <p style="font-size:1.1rem;">Are you sure you want to delete <strong>{{ object.name }}</strong> (Roll: {{ object.roll }})?</p>
+    <p style="color:#e74c3c; font-size:0.9rem;">This action cannot be undone.</p>
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" style="padding:10px 28px; background:#e74c3c; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:600;">Yes, delete</button>
+        <a href="{% url 'students:index' %}" style="padding:10px 28px; background:#95a5a6; color:#fff; text-decoration:none; border-radius:6px; margin-left:8px;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

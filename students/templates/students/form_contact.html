@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us | CampusHub{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:600px; margin:0 auto;">
+    <h2>Contact Us</h2>
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <p>
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                {% for err in field.errors %}
+                <br><small style="color:#e74c3c;">{{ err }}</small>
+                {% endfor %}
+            {% endif %}
+        </p>
+        {% endfor %}
+        <hr>
+        <button type="submit" style="padding:8px 24px; background:#3498db; color:#fff; border:none; border-radius:6px; cursor:pointer;">Send Message</button>
+    </form>
+</div>
+{% endblock %}

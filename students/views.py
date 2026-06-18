@@ -1,0 +1,140 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
+from django.urls import reverse_lazy, reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
+from django.db.models import Avg, Max, Count
+from .models import Student, Department, Course
+from .forms import ContactForm, StudentForm
+
+def dashboard(request):
+    students = Student.objects.select_related('department').all()
+    dept_stats = Department.objects.annotate(n=Count('students'), avg_marks=Avg('students__marks'))
+    stats = {
+        'total_students': students.count(),
+        'avg_marks': Student.objects.aggregate(avg=Avg('marks'))['avg'] or 0,
+        'top_marks': Student.objects.aggregate(top=Max('marks'))['top'] or 0,
+        'total_depts': Department.objects.count(),
+        'dept_stats': dept_stats,
+    }
+
+    add_form = StudentForm()
+    contact_form = ContactForm()
+    add_success = None
+    contact_success = None
+
+    if request.method == 'POST':
+        if 'add_student' in request.POST:
+            add_form = StudentForm(request.POST, request.FILES)
+            if add_form.is_valid():
+                add_form.save()
+                add_success = "Student added successfully!"
+                add_form = StudentForm()
+            return render(request, "students/dashboard.html", {
+                "students": students, "stats": stats,
+                "add_form": add_form, "contact_form": contact_form,
+                "add_success": add_success, "contact_success": contact_success,
+            })
+        elif 'contact_submit' in request.POST:
+            contact_form = ContactForm(request.POST)
+            if contact_form.is_valid():
+                data = contact_form.cleaned_data
+                contact_success = f"Thanks {data['name']}! We received your message."
+                contact_form = ContactForm()
+            return render(request, "students/dashboard.html", {
+                "students": students, "stats": stats,
+                "add_form": add_form, "contact_form": contact_form,
+                "add_success": add_success, "contact_success": contact_success,
+            })
+
+    return render(request, "students/dashboard.html", {
+        "students": students,
+        "stats": stats,
+        "add_form": add_form,
+        "contact_form": contact_form,
+        "add_success": add_success,
+        "contact_success": contact_success,
+    })
+
+def add_contact(request):
+    add_form = StudentForm()
+    contact_form = ContactForm()
+    add_success = contact_success = add_error = None
+
+    if request.method == 'POST':
+        if 'add_student' in request.POST:
+            add_form = StudentForm(request.POST, request.FILES)
+            if add_form.is_valid():
+                add_form.save()
+                add_success = "Student added successfully!"
+                add_form = StudentForm()
+            else:
+                add_error = "Please correct the errors below."
+        elif 'contact_submit' in request.POST:
+            contact_form = ContactForm(request.POST)
+            if contact_form.is_valid():
+                data = contact_form.cleaned_data
+                contact_success = f"Thanks {data['name']}! We received your message."
+                contact_form = ContactForm()
+
+    return render(request, 'students/add_contact.html', {
+        'add_form': add_form, 'contact_form': contact_form,
+        'add_success': add_success, 'contact_success': contact_success,
+        'add_error': add_error,
+    })
+
+class StudentListView(ListView):
+    model = Student
+    template_name = 'students/index.html'
+    context_object_name = 'students'
+    paginate_by = 5
+
+    def get_queryset(self):
+        qs = Student.objects.select_related('department').all()
+        q = self.request.GET.get('q')
+        if q:
+            qs = qs.filter(name__icontains=q)
+        return qs
+
+class StudentDetailView(DetailView):
+    model = Student
+    template_name = 'students/detail.html'
+    context_object_name = 's'
+    pk_url_kwarg = 'pk'
+
+class StudentCreateView(LoginRequiredMixin, CreateView):
+    model = Student
+    form_class = StudentForm
+    template_name = 'students/form_student.html'
+    success_url = reverse_lazy('students:index')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['heading'] = 'Add Student'
+        return context
+
+class StudentUpdateView(LoginRequiredMixin, UpdateView):
+    model = Student
+    form_class = StudentForm
+    template_name = 'students/form_student.html'
+    success_url = reverse_lazy('students:index')
+    pk_url_kwarg = 'pk'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['heading'] = f"Edit {self.object.name}"
+        return context
+
+class StudentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Student
+    template_name = 'students/student_confirm_delete.html'
+    success_url = reverse_lazy('students:index')
+    pk_url_kwarg = 'pk'
+
+class ContactView(FormView):
+    template_name = 'students/form_contact.html'
+    form_class = ContactForm
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        return HttpResponse(f"Thanks {data['name']}! We received your message.")
