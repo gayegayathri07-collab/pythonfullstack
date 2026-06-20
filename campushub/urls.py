@@ -2,12 +2,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from students import views as student_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('students/', include('students.urls')),
-    path('', include('students.urls')),
+    path('', student_views.dashboard, name='home'),
 ]
 
 if settings.DEBUG:
