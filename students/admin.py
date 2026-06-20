@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Department, Student, Course
+from .models import Department, Student, Course, Attendance
 
 class StudentInline(admin.TabularInline):
     model = Student
@@ -61,3 +61,9 @@ class CourseAdmin(admin.ModelAdmin):
     @admin.display(description='Enrolled')
     def student_count(self, obj):
         return obj.students.count()
+
+@admin.register(Attendance)
+class AttendanceAdmin(admin.ModelAdmin):
+    list_display = ('student', 'date', 'present')
+    list_filter = ('present', 'date')
+    search_fields = ('student__name',)

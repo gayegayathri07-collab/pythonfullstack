@@ -3,19 +3,41 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
-from django.db.models import Avg, Max, Count
-from .models import Student, Department, Course
+from django.db.models import Avg, Max, Min, Count, Q, Sum
+from django.utils import timezone
+from datetime import timedelta
+from .models import Student, Department, Course, Attendance
 from .forms import ContactForm, StudentForm
 
 def dashboard(request):
     students = Student.objects.select_related('department').all()
     dept_stats = Department.objects.annotate(n=Count('students'), avg_marks=Avg('students__marks'))
+
+    today = timezone.now().date()
+    week_ago = today - timedelta(days=7)
+
+    total_attendance = Attendance.objects.filter(date__gte=week_ago).count()
+    present_attendance = Attendance.objects.filter(date__gte=week_ago, present=True).count()
+    attendance_pct = round((present_attendance / total_attendance * 100)) if total_attendance else 0
+
+    dept_attendance = []
+    for dept in Department.objects.all():
+        dept_students = dept.students.all()
+        total = Attendance.objects.filter(student__in=dept_students, date__gte=week_ago).count()
+        present = Attendance.objects.filter(student__in=dept_students, date__gte=week_ago, present=True).count()
+        dept_attendance.append({
+            'name': dept.name,
+            'pct': round((present / total * 100)) if total else 0,
+        })
+
     stats = {
         'total_students': students.count(),
         'avg_marks': Student.objects.aggregate(avg=Avg('marks'))['avg'] or 0,
         'top_marks': Student.objects.aggregate(top=Max('marks'))['top'] or 0,
         'total_depts': Department.objects.count(),
         'dept_stats': dept_stats,
+        'attendance_pct': attendance_pct,
+        'dept_attendance': dept_attendance,
     }
 
     add_form = StudentForm()

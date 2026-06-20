@@ -2,7 +2,7 @@
 {% load static %}
 {% load student_extras %}
 
-{% block title %}CampusHub - Dashboard{% endblock %}
+{% block title %}CampusHub - Admin Dashboard{% endblock %}
 
 {% block content %}
 <style>
@@ -36,7 +36,7 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
 @keyframes titleFade { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 .hero p { opacity:0.5; font-size:1rem; position:relative; color:#94a3b8; letter-spacing:0.3px; }
 
-.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1rem; margin-bottom:2rem; }
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; margin-bottom:2rem; }
 .stat {
   background:rgba(255,255,255,0.02); backdrop-filter:blur(12px);
   border-radius:16px; padding:1.4rem 1rem; text-align:center;
@@ -98,9 +98,7 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
 @keyframes slideAlert { from{opacity:0;transform:translateY(-12px) scale(0.98)} to{opacity:1;transform:translateY(0) scale(1)} }
 .alert-success { background:rgba(16,185,129,0.08); color:#34d399; border:1px solid rgba(16,185,129,0.15); backdrop-filter:blur(8px); }
 
-/* ===== Sequential Student Gallery ===== */
 .gallery { display:flex; flex-direction:column; gap:0.7rem; margin-top:0.5rem; }
-
 .gallery .g-item {
   display:flex; align-items:center; gap:1.2rem;
   padding:1rem 1.2rem;
@@ -120,7 +118,6 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
 .gallery .g-item:nth-child(8){animation-delay:0.4s}
 .gallery .g-item:nth-child(9){animation-delay:0.45s}
 .gallery .g-item:nth-child(10){animation-delay:0.5s}
-
 .gallery .g-item::before {
   content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
   background:linear-gradient(180deg,#7c3aed,#4f46e5,#a78bfa);
@@ -132,7 +129,6 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
   background:rgba(124,58,237,0.04); box-shadow:0 12px 40px rgba(0,0,0,0.25);
 }
 .gallery .g-item:active { transform:translateX(4px) scale(0.985); }
-
 .g-item .rank {
   width:38px; height:38px; border-radius:50%;
   background:rgba(255,255,255,0.03); color:#64748b;
@@ -144,7 +140,6 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
 .g-item .rank.gold { background:linear-gradient(135deg,#f59e0b,#fbbf24); color:#0f0f1a; border-color:#f59e0b; box-shadow:0 0 25px rgba(245,158,11,0.3); }
 .g-item .rank.silver { background:linear-gradient(135deg,#94a3b8,#cbd5e1); color:#0f0f1a; border-color:#94a3b8; box-shadow:0 0 20px rgba(148,163,184,0.15); }
 .g-item .rank.bronze { background:linear-gradient(135deg,#d97706,#fbbf24); color:#0f0f1a; border-color:#d97706; box-shadow:0 0 20px rgba(217,119,6,0.2); }
-
 .g-item .photo-wrap {
   width:64px; height:64px; border-radius:50%; padding:3px;
   background:linear-gradient(135deg,rgba(124,58,237,0.25),rgba(79,70,229,0.25));
@@ -156,7 +151,6 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
   width:100%; height:100%; border-radius:50%; object-fit:cover;
   border:2px solid #07070d;
 }
-
 .g-item .details { flex:1; min-width:0; }
 .g-item .details .name {
   font-weight:700; color:#f1f5f9; font-size:1rem;
@@ -177,7 +171,6 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
 .grade-a { background:rgba(16,185,129,0.12); color:#34d399; border:1px solid rgba(16,185,129,0.1); }
 .grade-b { background:rgba(245,158,11,0.12); color:#fbbf24; border:1px solid rgba(245,158,11,0.1); }
 .grade-c { background:rgba(239,68,68,0.12); color:#f87171; border:1px solid rgba(239,68,68,0.1); }
-
 .g-item .actions { display:flex; gap:0.4rem; flex-shrink:0; }
 
 .admin-card {
@@ -247,11 +240,15 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
 .dept-card:nth-child(2) .count-badge { background:rgba(245,158,11,0.1); color:#fbbf24; border:1px solid rgba(245,158,11,0.1); }
 .dept-card:nth-child(3) .count-badge { background:rgba(16,185,129,0.1); color:#34d399; border:1px solid rgba(16,185,129,0.1); }
 .dept-card:nth-child(4) .count-badge { background:rgba(168,85,247,0.1); color:#c084fc; border:1px solid rgba(168,85,247,0.1); }
+
+.chart-container {
+  position:relative; width:100%; max-height:250px; margin:1rem 0;
+}
 </style>
 
 <div class="hero">
-  <h1>&#127891; CampusHub</h1>
-  <p>Django &mdash; Routing &bull; Templates &bull; ORM &bull; Forms &bull; CBV &bull; File Upload</p>
+  <h1>&#127891; CampusHub Admin</h1>
+  <p>Mother Theresa Institute of Engineering and Technology &mdash; Palamaner, Chittoor</p>
 </div>
 
 {% if add_success %}<div class="alert alert-success">{{ add_success }}</div>{% endif %}
@@ -261,10 +258,32 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
   <div class="stat"><div class="icon">&#11088;</div><div class="n">{{ stats.avg_marks|floatformat:1 }}</div><div class="l">Avg Marks</div></div>
   <div class="stat"><div class="icon">&#127942;</div><div class="n">{{ stats.top_marks }}</div><div class="l">Highest</div></div>
   <div class="stat"><div class="icon">&#128196;</div><div class="n">{{ stats.total_depts }}</div><div class="l">Departments</div></div>
+  <div class="stat"><div class="icon">&#128200;</div><div class="n">{{ stats.attendance_pct }}%</div><div class="l">Attendance (7d)</div></div>
 </div>
 
 <div class="section">
-  <h2>&#10010; Add Student</h2>
+  <h2>&#128200; Attendance Overview (Last 7 Days)</h2>
+  <div class="chart-container">
+    <canvas id="attendanceChart"></canvas>
+  </div>
+</div>
+
+<div class="section">
+  <h2>&#128205; Our Location</h2>
+  <div class="info" style="margin-bottom:1rem;color:#94a3b8;font-size:0.9rem;">
+    <div style="margin-bottom:0.5rem;"><strong style="color:#e2e8f0;">Mother Theresa Institute of Engineering and Technology</strong></div>
+    <div>Melumoi Post, Madanapalli Road, Palamaner, Chittoor - 517408, Andhra Pradesh</div>
+    <div style="margin-top:0.3rem;">&#128222; 9866888648 &nbsp; &#128231; mtieat@gmail.com</div>
+  </div>
+  <div id="dashboard-map" style="width:100%;height:300px;border-radius:16px;border:1px solid rgba(255,255,255,0.04);overflow:hidden;"></div>
+  <div style="margin-top:0.8rem;text-align:right;">
+    <a href="https://maps.google.com/?q=13.243372,78.7265317" target="_blank" class="btn btn-primary btn-sm">&#128269; View on Google Maps</a>
+    <a href="{% url 'students:location' %}" class="btn btn-primary btn-sm">&#128269; Full Location</a>
+  </div>
+</div>
+
+<div class="section">
+  <h2>&#10010; Quick Add Student</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="hidden" name="add_student" value="1">
@@ -280,35 +299,6 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
     {% endfor %}
     <button type="submit" class="btn btn-success">&#10003; Add Student</button>
   </form>
-</div>
-
-<div class="section">
-  <h2>&#9993; Contact</h2>
-  <form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="contact_submit" value="1">
-    {% for field in contact_form %}
-    <div class="form-group">
-      <label>{{ field.label }}</label>
-      {{ field }}
-      {% if field.errors %}{% for e in field.errors %}<small style="color:#f87171;">{{ e }}</small>{% endfor %}{% endif %}
-    </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary">&#10148; Send</button>
-  </form>
-</div>
-
-<div class="section">
-  <h2>&#128205; Our Location</h2>
-  <div class="info" style="margin-bottom:1rem;color:#94a3b8;font-size:0.9rem;">
-    <div style="margin-bottom:0.5rem;"><strong style="color:#e2e8f0;">Mother Theresa Institute of Engineering and Technology</strong></div>
-    <div>Melumoi Post, Madanapalli Road, Palamaner, Chittoor - 517408, Andhra Pradesh</div>
-    <div style="margin-top:0.3rem;">&#128222; 9866888648 &nbsp; &#128231; mtieat@gmail.com</div>
-  </div>
-  <div id="dashboard-map" style="width:100%;height:300px;border-radius:16px;border:1px solid rgba(255,255,255,0.04);overflow:hidden;"></div>
-  <div style="margin-top:0.8rem;text-align:right;">
-    <a href="{% url 'students:location' %}" class="btn btn-primary btn-sm">&#128269; View Full Location</a>
-  </div>
 </div>
 
 <div class="section">
@@ -368,7 +358,7 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
 <div class="section">
   <h2>&#128202; Department Analytics</h2>
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;">
-    <span style="font-size:0.85rem;color:#64748b;">&#128200; Performance overview by department</span>
+    <span style="font-size:0.85rem;color:#64748b;">&#128200; Performance & attendance by department</span>
   </div>
   <div class="dept-grid">
     {% for d in stats.dept_stats %}
@@ -388,6 +378,7 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
 {% block extra_js %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
   if(document.getElementById("dashboard-map")) {
     var map = L.map("dashboard-map", { zoomControl: false }).setView([13.2434, 78.7265], 15);
@@ -395,6 +386,44 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
       attribution: '&copy; OpenStreetMap'
     }).addTo(map);
     L.marker([13.2434, 78.7265]).addTo(map).bindPopup("Mother Theresa Institute of Engineering and Technology");
+  }
+
+  var ctx = document.getElementById("attendanceChart");
+  if (ctx) {
+    ctx = ctx.getContext("2d");
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: [{% for d in stats.dept_attendance %}"{{ d.name }}",{% endfor %}],
+        datasets: [{
+          label: "Attendance %",
+          data: [{% for d in stats.dept_attendance %}{{ d.pct }},{% endfor %}],
+          backgroundColor: ["rgba(59,130,246,0.7)", "rgba(245,158,11,0.7)", "rgba(16,185,129,0.7)", "rgba(168,85,247,0.7)"],
+          borderColor: ["#3b82f6", "#f59e0b", "#10b981", "#a855f7"],
+          borderWidth: 2,
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            grid: { color: "rgba(255,255,255,0.05)" },
+            ticks: { color: "#94a3b8", callback: function(v) { return v + "%"; } },
+          },
+          x: {
+            grid: { display: false },
+            ticks: { color: "#94a3b8" },
+          }
+        }
+      }
+    });
   }
 </script>
 {% endblock %}

@@ -49,3 +49,15 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+class Attendance(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='attendance')
+    date = models.DateField(auto_now_add=True)
+    present = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['-date']
+        unique_together = ['student', 'date']
+
+    def __str__(self):
+        return f"{self.student.name} - {'Present' if self.present else 'Absent'} on {self.date}"
