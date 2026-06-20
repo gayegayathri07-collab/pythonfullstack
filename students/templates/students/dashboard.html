@@ -386,29 +386,15 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
 {% endblock %}
 
 {% block extra_js %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-function initDashboardMap() {
-    const location = { lat: 13.2434, lng: 78.7265 };
-    const map = new google.maps.Map(document.getElementById("dashboard-map"), {
-        center: location,
-        zoom: 15,
-        disableDefaultUI: true,
-        styles: [
-            { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-            { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-            { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-            { featureType: "road", elementType: "geometry", stylers: [{ color: "#38414e" }] },
-            { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: "#212a37" }] },
-            { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#9ca5b3" }] },
-            { featureType: "water", elementType: "geometry", stylers: [{ color: "#17263c" }] },
-        ],
-    });
-    new google.maps.Marker({
-        position: location,
-        map: map,
-        title: "Mother Theresa Institute of Engineering and Technology",
-    });
-}
+  if(document.getElementById("dashboard-map")) {
+    var map = L.map("dashboard-map", { zoomControl: false }).setView([13.2434, 78.7265], 15);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+    L.marker([13.2434, 78.7265]).addTo(map).bindPopup("Mother Theresa Institute of Engineering and Technology");
+  }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initDashboardMap" async defer></script>
 {% endblock %}
