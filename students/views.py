@@ -13,12 +13,34 @@ def landing(request):
     dept_stats = Department.objects.annotate(n=Count('students'), avg_marks=Avg('students__marks'))
     total_students = Student.objects.count()
     total_depts = Department.objects.count()
+    top_students = Student.objects.select_related('department').order_by('-marks')[:6]
     latest_students = Student.objects.select_related('department').order_by('-admitted')[:6]
+
+    today = timezone.now().date()
+    week_ago = today - timedelta(days=7)
+    total_att = Attendance.objects.filter(date__gte=week_ago).count()
+    present_att = Attendance.objects.filter(date__gte=week_ago, present=True).count()
+    attendance_pct = round((present_att / total_att * 100)) if total_att else 85
+
+    testimonials = []
+    for s in Student.objects.exclude(bio='').order_by('-marks')[:4]:
+        testimonials.append({
+            'name': s.name,
+            'dept': s.department.name if s.department else '',
+            'quote': s.bio[:200],
+            'image': s.image.url if s.image else None,
+            'marks': s.marks,
+        })
+
     return render(request, "students/landing.html", {
         'dept_stats': dept_stats,
         'total_students': total_students,
         'total_depts': total_depts,
+        'top_students': top_students,
         'latest_students': latest_students,
+        'testimonials': testimonials,
+        'attendance_pct': attendance_pct,
+        'avg_marks': Student.objects.aggregate(avg=Avg('marks'))['avg'] or 0,
     })
 
 def dashboard(request):

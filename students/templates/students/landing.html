@@ -662,6 +662,38 @@
     </div>
 </section>
 
+<section class="section section-alt" style="padding:3rem 0 5rem">
+    <div class="container">
+        <div class="section-title">
+            <div class="line"></div>
+            <h2>Our <span>Achievements</span></h2>
+            <p>MTIET has consistently delivered outstanding academic and placement results, shaping future leaders.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem">
+            <div class="course-card" style="text-align:center">
+                <div class="icon" style="margin:0 auto 1rem;background:#fff3e0"><i class="fas fa-trophy" style="color:#e65100;font-size:2rem"></i></div>
+                <h3>JNTUH Gold Medal</h3>
+                <p>Awarded Two Gold Medals by JNTUH University for academic excellence</p>
+            </div>
+            <div class="course-card" style="text-align:center">
+                <div class="icon" style="margin:0 auto 1rem;background:#e8f5e9"><i class="fas fa-award" style="color:#2e7d32;font-size:2rem"></i></div>
+                <h3>NAAC 'A' Grade</h3>
+                <p>Accredited with 'A' Grade by NAAC with highest standards</p>
+            </div>
+            <div class="course-card" style="text-align:center">
+                <div class="icon" style="margin:0 auto 1rem;background:#e3f2fd"><i class="fas fa-university" style="color:#1565c0;font-size:2rem"></i></div>
+                <h3>UGC Autonomous</h3>
+                <p>Granted autonomous status by UGC for academic flexibility</p>
+            </div>
+            <div class="course-card" style="text-align:center">
+                <div class="icon" style="margin:0 auto 1rem;background:#fce4ec"><i class="fas fa-briefcase" style="color:#c62828;font-size:2rem"></i></div>
+                <h3>48 LPA Package</h3>
+                <p>Highest placement package of 48 LPA (Provet Constructions, UK)</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="section" id="about">
     <div class="container">
         <div class="about-grid">
@@ -732,6 +764,36 @@
     </div>
 </section>
 
+<section class="section" style="padding-bottom:0">
+    <div class="container">
+        <div class="section-title">
+            <div class="line"></div>
+            <h2>Top <span>Students</span></h2>
+            <p>Meet our brilliant scholars who have excelled in academics and made MTIET proud.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1.5rem">
+            {% for s in top_students %}
+            <div style="background:#fff;border-radius:20px;padding:1.5rem;text-align:center;box-shadow:var(--shadow);transition:all 0.3s" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <div style="width:80px;height:80px;border-radius:50%;margin:0 auto 0.8rem;overflow:hidden;border:3px solid var(--accent);position:relative">
+                    {% if s.image and s.image.url %}
+                    <img src="{{ s.image.url }}" alt="{{ s.name }}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
+                    {% endif %}
+                    <div style="width:100%;height:100%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.5rem">{{ s.name|first }}</div>
+                </div>
+                <h3 style="font-size:1rem;color:var(--primary);margin-bottom:0.3rem">{{ s.name }}</h3>
+                <p style="font-size:0.8rem;color:#888">{{ s.department.name }}</p>
+                <div style="margin-top:0.5rem;display:flex;justify-content:center;gap:0.5rem;flex-wrap:wrap">
+                    <span style="background:#e8eaf6;color:var(--primary);padding:0.2rem 0.7rem;border-radius:20px;font-size:0.75rem;font-weight:600">{{ s.marks }}%</span>
+                    <span style="background:#fff3e0;color:#e65100;padding:0.2rem 0.7rem;border-radius:20px;font-size:0.75rem;font-weight:600">Roll {{ s.roll }}</span>
+                </div>
+            </div>
+            {% empty %}
+            <p style="text-align:center;grid-column:1/-1;color:#888">No student records yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
 <section class="section" id="departments">
     <div class="container">
         <div class="section-title">
@@ -774,6 +836,38 @@
     </div>
 </section>
 
+<section class="section section-alt" style="padding-bottom:0">
+    <div class="container">
+        <div class="section-title">
+            <div class="line"></div>
+            <h2>What Our <span>Students Say</span></h2>
+            <p>Hear from our students about their journey at MTIET.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem">
+            {% if testimonials %}
+            {% for t in testimonials %}
+            <div style="background:#fff;border-radius:20px;padding:2rem;box-shadow:var(--shadow);position:relative;border-left:4px solid var(--accent);transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <div style="color:var(--accent);font-size:3rem;opacity:0.2;position:absolute;top:10px;right:20px"><i class="fas fa-quote-right"></i></div>
+                <p style="font-style:italic;color:#555;line-height:1.7;font-size:0.95rem">&ldquo;{{ t.quote }}&rdquo;</p>
+                <div style="display:flex;align-items:center;gap:1rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #eee">
+                    <div style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.2rem;flex-shrink:0">{{ t.name|first }}</div>
+                    <div>
+                        <strong style="color:var(--primary);font-size:0.95rem">{{ t.name }}</strong>
+                        <p style="color:#888;font-size:0.8rem">{{ t.dept }} &middot; {{ t.marks }}%</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div style="grid-column:1/-1;text-align:center;padding:2rem;color:#888;background:#fff;border-radius:20px;box-shadow:var(--shadow)">
+                <i class="fas fa-comment-dots" style="font-size:3rem;color:var(--accent);margin-bottom:1rem"></i>
+                <p>No testimonials yet. Student bios will appear here once added.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
 <section class="section section-alt" id="gallery">
     <div class="container">
         <div class="section-title">
@@ -806,6 +900,53 @@
                 <img src="{% static 'images/student4.jpg' %}" alt="Hostel" onerror="this.style.background='#3949ab';">
                 <div class="overlay"><h4>Hostel Life</h4><p>Comfortable accommodation for 1,750</p></div>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-bottom:0">
+    <div class="container">
+        <div class="section-title">
+            <div class="line"></div>
+            <h2>Our <span>Recruiters</span></h2>
+            <p>Top companies that trust MTIET talent and actively recruit from our campus.</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;align-items:center;padding:1rem 0">
+            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <i class="fab fa-google" style="font-size:2rem;color:#4285F4"></i>
+                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Google</p>
+            </div>
+            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <i class="fab fa-microsoft" style="font-size:2rem;color:#00a4ef"></i>
+                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Microsoft</p>
+            </div>
+            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <i class="fab fa-amazon" style="font-size:2rem;color:#ff9900"></i>
+                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Amazon</p>
+            </div>
+            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <i class="fas fa-chart-line" style="font-size:2rem;color:#6c63ff"></i>
+                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Infosys</p>
+            </div>
+            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <i class="fas fa-bolt" style="font-size:2rem;color:#00838f"></i>
+                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">TCS</p>
+            </div>
+            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <i class="fas fa-globe" style="font-size:2rem;color:#1565c0"></i>
+                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Wipro</p>
+            </div>
+            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <i class="fas fa-heartbeat" style="font-size:2rem;color:#4caf50"></i>
+                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">HCL</p>
+            </div>
+            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <i class="fas fa-space-shuttle" style="font-size:2rem;color:#7b1fa2"></i>
+                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Accenture</p>
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:2rem">
+            <p style="color:#888;font-size:0.95rem"><i class="fas fa-briefcase" style="color:var(--accent);margin-right:0.5rem"></i>895+ offers received by 2024 graduates &middot; Highest Package: 48 LPA</p>
         </div>
     </div>
 </section>
@@ -958,6 +1099,7 @@
     window.addEventListener('scroll', () => {
         const btn = document.getElementById('scrollTop');
         btn.classList.toggle('visible', window.scrollY > 400);
+        animateCounters();
     });
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -970,6 +1112,32 @@
             }
         });
     });
+
+    let countersAnimated = false;
+    function animateCounters() {
+        if (countersAnimated) return;
+        const stats = document.querySelector('.stats-row');
+        if (!stats) return;
+        const rect = stats.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+            countersAnimated = true;
+            document.querySelectorAll('.stat-card .num').forEach(el => {
+                const target = parseInt(el.textContent);
+                if (isNaN(target)) return;
+                let current = 0;
+                const step = Math.ceil(target / 40);
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    el.textContent = current + (el.textContent.includes('+') ? '+' : '');
+                }, 30);
+            });
+        }
+    }
+    animateCounters();
 </script>
 </body>
 </html>
