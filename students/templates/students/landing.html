@@ -1115,13 +1115,17 @@
         <div class="topper-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem">
             {% if top_students %}
             {% for s in top_students %}
+            {% with last=s.name|slice:"-1:" %}
             <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow);transition:all 0.3s;position:relative;overflow:hidden" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
                 {% if forloop.counter == 1 %}<div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#ffd700,#ffaa00)"></div>{% endif %}
                 {% if forloop.counter == 2 %}<div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#c0c0c0,#e0e0e0)"></div>{% endif %}
                 {% if forloop.counter == 3 %}<div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#cd7f32,#daa520)"></div>{% endif %}
                 <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;overflow:hidden;border:3px solid var(--accent);position:relative">
-                    {% if s.image %}<img src="{{ s.image.url }}" alt="{{ s.name }}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">{% endif %}
-                    <div style="width:100%;height:100%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem">{{ s.name|first }}</div>
+                    {% if last == 'a' or last == 'i' or last == 'e' %}
+                    <svg viewBox="0 0 64 64" style="width:100%;height:100%"><circle cx="32" cy="32" r="32" fill="#880e4f"/><circle cx="32" cy="26" r="14" fill="#fce4ec"/><circle cx="27" cy="24" r="2.5" fill="#4a0024"/><circle cx="37" cy="24" r="2.5" fill="#4a0024"/><path d="M27 30 Q32 35 37 30" stroke="#d81b60" fill="none" stroke-width="1.5" stroke-linecap="round"/><path d="M18 18 Q22 12 32 14 Q42 12 46 18 Q48 26 44 34 Q40 38 32 38 Q24 38 20 34 Q16 26 18 18Z" fill="#4a0024" opacity="0.8"/><circle cx="32" cy="48" r="8" fill="#f48fb1" opacity="0.6"/></svg>
+                    {% else %}
+                    <svg viewBox="0 0 64 64" style="width:100%;height:100%"><circle cx="32" cy="32" r="32" fill="#1a237e"/><ellipse cx="32" cy="20" rx="16" ry="12" fill="#0d1b5e"/><circle cx="32" cy="28" r="14" fill="#f5f5f5"/><circle cx="27" cy="26" r="2.5" fill="#333"/><circle cx="37" cy="26" r="2.5" fill="#333"/><path d="M26 32 Q32 39 38 32" stroke="#1a237e" fill="none" stroke-width="1.5" stroke-linecap="round"/><path d="M28 42 Q32 46 36 42" fill="#e0e0e0"/></svg>
+                    {% endif %}
                 </div>
                 <h4 style="font-size:0.9rem;color:var(--primary);margin:0">{{ s.name }}</h4>
                 <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">{{ s.department.name }}</p>
@@ -1130,38 +1134,49 @@
                     {% if forloop.counter <= 3 %}<span class="badge" style="background:#fff3e0;color:#e65100;padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">🏆 Top {{ forloop.counter }}</span>{% endif %}
                 </div>
             </div>
+            {% endwith %}
             {% endfor %}
             {% else %}
             <!-- Static fallback toppers -->
             <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden">
                 <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#ffd700,#ffaa00)"></div>
-                <img src="{% static 'images/mtiet-logo.png' %}" alt="Sai" style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;display:block;object-fit:cover;border:3px solid var(--accent);background:var(--primary)">
+                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;overflow:hidden;border:3px solid var(--accent);background:#1a237e">
+                    <svg viewBox="0 0 64 64" style="width:100%;height:100%"><ellipse cx="32" cy="32" rx="32" ry="32" fill="#1a237e"/><ellipse cx="32" cy="20" rx="16" ry="12" fill="#0d1b5e"/><circle cx="32" cy="28" r="14" fill="#f5f5f5"/><circle cx="27" cy="26" r="2.5" fill="#333"/><circle cx="37" cy="26" r="2.5" fill="#333"/><path d="M26 32 Q32 39 38 32" stroke="#1a237e" fill="none" stroke-width="1.5" stroke-linecap="round"/><path d="M28 42 Q32 46 36 42" fill="#e0e0e0"/></svg>
+                </div>
                 <h4 style="font-size:0.9rem;color:var(--primary);margin:0">K. Sai Kumar</h4>
                 <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">CSE</p>
                 <div style="margin-top:0.4rem"><span style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600">95.8%</span> <span style="background:#fff3e0;color:#e65100;padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">🏆 Top 1</span></div>
             </div>
             <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden">
                 <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#c0c0c0,#e0e0e0)"></div>
-                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem">P</div>
+                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;overflow:hidden;border:3px solid var(--accent);background:#880e4f">
+                    <svg viewBox="0 0 64 64" style="width:100%;height:100%"><circle cx="32" cy="32" r="32" fill="#880e4f"/><circle cx="32" cy="26" r="14" fill="#fce4ec"/><circle cx="27" cy="24" r="2.5" fill="#4a0024"/><circle cx="37" cy="24" r="2.5" fill="#4a0024"/><path d="M27 30 Q32 35 37 30" stroke="#d81b60" fill="none" stroke-width="1.5" stroke-linecap="round"/><path d="M18 18 Q22 12 32 14 Q42 12 46 18 Q48 26 44 34 Q40 38 32 38 Q24 38 20 34 Q16 26 18 18Z" fill="#4a0024" opacity="0.8"/><circle cx="32" cy="48" r="8" fill="#f48fb1" opacity="0.6"/></svg>
+                </div>
                 <h4 style="font-size:0.9rem;color:var(--primary);margin:0">P. Lakshmi Prasanna</h4>
                 <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">ECE</p>
                 <div style="margin-top:0.4rem"><span style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600">93.2%</span> <span style="background:#fff3e0;color:#e65100;padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">🏆 Top 2</span></div>
             </div>
             <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden">
                 <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#cd7f32,#daa520)"></div>
-                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem">R</div>
+                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;overflow:hidden;border:3px solid var(--accent);background:#1a237e">
+                    <svg viewBox="0 0 64 64" style="width:100%;height:100%"><ellipse cx="32" cy="32" rx="32" ry="32" fill="#1a237e"/><ellipse cx="32" cy="20" rx="16" ry="12" fill="#0d1b5e"/><circle cx="32" cy="28" r="14" fill="#f5f5f5"/><circle cx="27" cy="26" r="2.5" fill="#333"/><circle cx="37" cy="26" r="2.5" fill="#333"/><path d="M26 32 Q32 39 38 32" stroke="#1a237e" fill="none" stroke-width="1.5" stroke-linecap="round"/><path d="M28 42 Q32 46 36 42" fill="#e0e0e0"/></svg>
+                </div>
                 <h4 style="font-size:0.9rem;color:var(--primary);margin:0">R. Vamsi Krishna</h4>
                 <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">MECH</p>
                 <div style="margin-top:0.4rem"><span style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600">91.7%</span> <span style="background:#fff3e0;color:#e65100;padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">🏆 Top 3</span></div>
             </div>
             <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
-                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem">S</div>
+                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;overflow:hidden;border:3px solid var(--accent);background:#880e4f">
+                    <svg viewBox="0 0 64 64" style="width:100%;height:100%"><circle cx="32" cy="32" r="32" fill="#880e4f"/><circle cx="32" cy="26" r="14" fill="#fce4ec"/><circle cx="27" cy="24" r="2.5" fill="#4a0024"/><circle cx="37" cy="24" r="2.5" fill="#4a0024"/><path d="M27 30 Q32 35 37 30" stroke="#d81b60" fill="none" stroke-width="1.5" stroke-linecap="round"/><path d="M18 18 Q22 12 32 14 Q42 12 46 18 Q48 26 44 34 Q40 38 32 38 Q24 38 20 34 Q16 26 18 18Z" fill="#4a0024" opacity="0.8"/><circle cx="32" cy="48" r="8" fill="#f48fb1" opacity="0.6"/></svg>
+                </div>
                 <h4 style="font-size:0.9rem;color:var(--primary);margin:0">S. Naga Sirisha</h4>
                 <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">EEE</p>
                 <div style="margin-top:0.4rem"><span style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600">90.4%</span></div>
             </div>
             <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
-                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem">M</div>
+                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;overflow:hidden;border:3px solid var(--accent);background:#1a237e">
+                    <svg viewBox="0 0 64 64" style="width:100%;height:100%"><ellipse cx="32" cy="32" rx="32" ry="32" fill="#1a237e"/><ellipse cx="32" cy="20" rx="16" ry="12" fill="#0d1b5e"/><circle cx="32" cy="28" r="14" fill="#f5f5f5"/><circle cx="27" cy="26" r="2.5" fill="#333"/><circle cx="37" cy="26" r="2.5" fill="#333"/><path d="M26 32 Q32 39 38 32" stroke="#1a237e" fill="none" stroke-width="1.5" stroke-linecap="round"/><path d="M28 42 Q32 46 36 42" fill="#e0e0e0"/></svg>
+                </div>
                 <h4 style="font-size:0.9rem;color:var(--primary);margin:0">M. Sunil Reddy</h4>
                 <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">CIVIL</p>
                 <div style="margin-top:0.4rem"><span style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600">89.1%</span></div>
