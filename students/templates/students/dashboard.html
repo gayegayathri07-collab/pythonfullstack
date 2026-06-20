@@ -299,6 +299,19 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
 </div>
 
 <div class="section">
+  <h2>&#128205; Our Location</h2>
+  <div class="info" style="margin-bottom:1rem;color:#94a3b8;font-size:0.9rem;">
+    <div style="margin-bottom:0.5rem;"><strong style="color:#e2e8f0;">Mother Theresa Institute of Engineering and Technology</strong></div>
+    <div>Melumoi Post, Madanapalli Road, Palamaner, Chittoor - 517408, Andhra Pradesh</div>
+    <div style="margin-top:0.3rem;">&#128222; 9866888648 &nbsp; &#128231; mtieat@gmail.com</div>
+  </div>
+  <div id="dashboard-map" style="width:100%;height:300px;border-radius:16px;border:1px solid rgba(255,255,255,0.04);overflow:hidden;"></div>
+  <div style="margin-top:0.8rem;text-align:right;">
+    <a href="{% url 'students:location' %}" class="btn btn-primary btn-sm">&#128269; View Full Location</a>
+  </div>
+</div>
+
+<div class="section">
   <h2>&#128218; Student Gallery</h2>
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;">
     <span style="font-size:0.85rem;color:#64748b;">&#9733; Ranked by marks &middot; {{ students|length }} total</span>
@@ -370,4 +383,32 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:#07070
     {% endfor %}
   </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function initDashboardMap() {
+    const location = { lat: 13.2434, lng: 78.7265 };
+    const map = new google.maps.Map(document.getElementById("dashboard-map"), {
+        center: location,
+        zoom: 15,
+        disableDefaultUI: true,
+        styles: [
+            { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+            { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+            { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+            { featureType: "road", elementType: "geometry", stylers: [{ color: "#38414e" }] },
+            { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: "#212a37" }] },
+            { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#9ca5b3" }] },
+            { featureType: "water", elementType: "geometry", stylers: [{ color: "#17263c" }] },
+        ],
+    });
+    new google.maps.Marker({
+        position: location,
+        map: map,
+        title: "Mother Theresa Institute of Engineering and Technology",
+    });
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initDashboardMap" async defer></script>
 {% endblock %}
