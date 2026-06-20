@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="sk" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#00695c"/><stop offset="100%" style="stop-color:#80cbc4"/></linearGradient>
+    <linearGradient id="gr" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#66bb6a"/><stop offset="100%" style="stop-color:#2e7d32"/></linearGradient>
+    <linearGradient id="bld" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#fff"/><stop offset="100%" style="stop-color:#e0e0e0"/></linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#sk)" rx="12"/>
+  <circle cx="680" cy="60" r="35" fill="#fff" opacity="0.8"/>
+  <circle cx="695" cy="52" r="6" fill="#fff" opacity="0.3"/>
+  <rect y="280" width="800" height="120" fill="url(#gr)"/>
+  <rect x="250" y="120" width="300" height="200" rx="6" fill="url(#bld)" stroke="#bdbdbd" stroke-width="1"/>
+  <rect x="280" y="90" width="40" height="40" rx="4" fill="#f57c00"/>
+  <rect x="480" y="90" width="40" height="40" rx="4" fill="#f57c00"/>
+  <rect x="385" y="70" width="30" height="55" rx="3" fill="#00695c"/>
+  <text x="397" y="100" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">DEG</text>
+  <rect x="270" y="150" width="70" height="55" rx="3" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1"/>
+  <rect x="270" y="150" width="70" height="8" fill="#00695c" rx="2"/>
+  <rect x="355" y="150" width="70" height="55" rx="3" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1"/>
+  <rect x="355" y="150" width="70" height="8" fill="#00695c" rx="2"/>
+  <rect x="440" y="150" width="70" height="55" rx="3" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1"/>
+  <rect x="440" y="150" width="70" height="8" fill="#00695c" rx="2"/>
+  <rect x="280" y="220" width="240" height="40" rx="4" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+  <rect x="280" y="220" width="240" height="6" fill="#f57c00" rx="2"/>
+  <text x="400" y="245" fill="#555" font-size="11" font-weight="bold" text-anchor="middle">MTI Degree College</text>
+  <rect x="310" y="270" width="180" height="10" rx="5" fill="#c8e6c9"/>
+  <rect x="310" y="270" width="130" height="10" rx="5" fill="#43a047"/>
+  <rect x="120" y="220" width="90" height="80" rx="5" fill="#fff" stroke="#bdbdbd" stroke-width="1"/>
+  <rect x="120" y="220" width="90" height="12" fill="#00695c" rx="3"/>
+  <text x="135" y="265" fill="#00695c" font-size="9" font-weight="bold">ARTS BLOCK</text>
+  <rect x="590" y="220" width="90" height="80" rx="5" fill="#fff" stroke="#bdbdbd" stroke-width="1"/>
+  <rect x="590" y="220" width="90" height="12" fill="#f57c00" rx="3"/>
+  <text x="610" y="265" fill="#f57c00" font-size="9" font-weight="bold">SCIENCE BLOCK</text>
+  <circle cx="150" cy="330" r="12" fill="#a5d6a7" stroke="#fff" stroke-width="1"/>
+  <circle cx="150" cy="330" r="4" fill="#00695c"/>
+  <line x1="155" y1="322" x2="130" y2="295" stroke="#fff" stroke-width="1.5"/>
+  <rect x="124" y="288" width="8" height="10" fill="#00695c" rx="2"/>
+  <circle cx="650" cy="330" r="12" fill="#a5d6a7" stroke="#fff" stroke-width="1"/>
+  <circle cx="650" cy="330" r="4" fill="#f57c00"/>
+  <rect x="420" y="300" width="60" height="30" rx="6" fill="#fff" opacity="0.3"/>
+  <text x="450" y="320" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">DEGREE COLLEGE</text>
+</svg>

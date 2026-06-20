@@ -784,6 +784,25 @@
     </div>
 </section>
 
+<section class="section" style="padding:3rem 0;background:linear-gradient(135deg,#1a237e08,#28359308)">
+    <div class="container">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:3rem;align-items:center;max-width:900px;margin:0 auto" class="reveal">
+            <div style="text-align:center;flex-shrink:0">
+                <img src="{% static 'images/mother.svg' %}" alt="Mother Theresa" style="width:180px;height:auto;border-radius:20px;box-shadow:var(--shadow)" onerror="this.style.display='none'">
+            </div>
+            <div>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem">
+                    <span style="background:var(--accent);padding:0.3rem 1rem;border-radius:20px;color:#fff;font-size:0.8rem;font-weight:600"><i class="fas fa-heart"></i> Our Patron</span>
+                </div>
+                <h2 style="font-size:1.8rem;color:var(--primary);margin-bottom:0.5rem;line-height:1.2">Mother Theresa <span style="color:var(--accent)">1910–1997</span></h2>
+                <p style="color:#555;line-height:1.8;font-size:0.95rem;font-style:italic">"I alone cannot change the world, but I can cast a stone across the waters to create many ripples."</p>
+                <p style="color:#666;line-height:1.7;font-size:0.92rem;margin-top:1rem">Founded in the spirit of service and compassion exemplified by <strong>St. Mother Teresa of Calcutta</strong>, our institutions are dedicated to providing quality education rooted in strong moral values. Her timeless teachings inspire us to nurture not just skilled professionals, but compassionate human beings who will serve society with dedication and love.</p>
+                <p style="color:#666;line-height:1.7;font-size:0.92rem">MTI (Mother Theresa Institutions) continues her legacy by empowering thousands of students through accessible, value-based education across engineering, management, degree, and junior college programs.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="section" style="padding-bottom:0">
     <div class="container">
         <div class="stats-row">
@@ -906,6 +925,47 @@
                     </div>
                 </div>
                 <p style="margin-top:1.5rem;color:#555;line-height:1.7;font-size:0.95rem"><i class="fas fa-quote-left" style="color:var(--accent);margin-right:0.5rem"></i>Our campus is designed to inspire innovation, foster creativity, and provide an unparalleled learning environment for every student.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background:linear-gradient(135deg,#00695c,#004d40);padding:4rem 0">
+    <div class="container">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center" class="reveal">
+            <div>
+                <span style="background:rgba(255,255,255,0.15);padding:0.3rem 1rem;border-radius:20px;color:#fff;font-size:0.8rem;font-weight:600;display:inline-block;margin-bottom:1rem"><i class="fas fa-star"></i> HIGHLIGHT</span>
+                <h2 style="font-size:2rem;color:#fff;margin-bottom:0.8rem;line-height:1.2">MTI Degree <span style="color:#ffb74d">College</span></h2>
+                <p style="color:rgba(255,255,255,0.85);line-height:1.8;font-size:0.95rem">Our Degree College offers a wide range of undergraduate programs in Arts, Science, and Commerce. With experienced faculty, modern classrooms, and a vibrant learning environment, we nurture students to excel academically and personally.</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem">
+                    <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:1rem;text-align:center;backdrop-filter:blur(8px)">
+                        <div style="font-size:1.5rem;font-weight:800;color:#ffb74d">6+</div>
+                        <div style="font-size:0.75rem;color:rgba(255,255,255,0.7)">UG Programs</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:1rem;text-align:center;backdrop-filter:blur(8px)">
+                        <div style="font-size:1.5rem;font-weight:800;color:#ffb74d">500+</div>
+                        <div style="font-size:0.75rem;color:rgba(255,255,255,0.7)">Students</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:1rem;text-align:center;backdrop-filter:blur(8px)">
+                        <div style="font-size:1.5rem;font-weight:800;color:#ffb74d">95%</div>
+                        <div style="font-size:0.75rem;color:rgba(255,255,255,0.7)">Pass Rate</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:1rem;text-align:center;backdrop-filter:blur(8px)">
+                        <div style="font-size:1.5rem;font-weight:800;color:#ffb74d">30+</div>
+                        <div style="font-size:0.75rem;color:rgba(255,255,255,0.7)">Faculty</div>
+                    </div>
+                </div>
+                <a href="#courses" class="btn" style="background:#ffb74d;color:#004d40;margin-top:1.5rem;display:inline-flex" onclick="switchTab('degree', document.getElementById('tab-degree-btn')||document.querySelector('[onclick*=\\'degree\\']'));document.getElementById('courses').scrollIntoView({behavior:'smooth'})">
+                    <i class="fas fa-arrow-right"></i> View Degree Programs
+                </a>
+            </div>
+            <div style="text-align:center">
+                <img src="{% static 'images/degree-campus.svg' %}" alt="Degree College Campus" style="width:100%;max-width:600px;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);background:#fff;padding:8px" onerror="this.style.display='none'">
+                <div style="display:flex;justify-content:center;gap:0.8rem;margin-top:1rem">
+                    <div style="width:12px;height:12px;border-radius:50%;background:#ffb74d"></div>
+                    <div style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.3)"></div>
+                    <div style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.3)"></div>
+                </div>
             </div>
         </div>
     </div>

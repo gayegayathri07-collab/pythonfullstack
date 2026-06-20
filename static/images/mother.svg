@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <linearGradient id="mg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8eaf6"/>
+      <stop offset="100%" style="stop-color:#c5cae9"/>
+    </linearGradient>
+    <linearGradient id="sg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a237e"/>
+      <stop offset="100%" style="stop-color:#283593"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#mg)" rx="20"/>
+  <circle cx="200" cy="160" r="80" fill="url(#sg)" opacity="0.1"/>
+  <circle cx="200" cy="150" r="60" fill="url(#sg)" opacity="0.15"/>
+  <circle cx="200" cy="140" r="40" fill="url(#sg)" opacity="0.2"/>
+  <ellipse cx="200" cy="200" rx="55" ry="65" fill="#f5deb3"/>
+  <rect x="165" y="195" width="70" height="70" rx="10" fill="#fff" opacity="0.5"/>
+  <path d="M175 205 Q185 190 200 195 Q215 190 225 205 L225 250 Q200 260 175 250 Z" fill="#e8eaf6" stroke="#9fa8da" stroke-width="1"/>
+  <path d="M180 210 Q185 200 200 205 Q215 200 220 210" fill="none" stroke="#7986cb" stroke-width="1.5"/>
+  <path d="M160 230 Q190 220 200 250 Q210 220 240 230" fill="none" stroke="#5c6bc0" stroke-width="1.5"/>
+  <rect x="185" y="270" width="30" height="40" rx="3" fill="#1a237e"/>
+  <rect x="175" y="305" width="50" height="15" rx="3" fill="#283593"/>
+  <text x="200" y="360" fill="#1a237e" font-size="20" font-weight="bold" text-anchor="middle" font-family="serif">Mother Theresa</text>
+  <text x="200" y="380" fill="#5c6bc0" font-size="12" text-anchor="middle" font-family="serif" font-style="italic">Patron Saint</text>
+  <text x="200" y="410" fill="#7986cb" font-size="9" text-anchor="middle">"Not all of us can do great things.</text>
+  <text x="200" y="425" fill="#7986cb" font-size="9" text-anchor="middle">But we can do small things with great love."</text>
+  <rect x="160" y="445" width="80" height="2" rx="1" fill="#c5cae9"/>
+</svg>
