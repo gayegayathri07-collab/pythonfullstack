@@ -1,0 +1,975 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTIET | Mother Theresa Institutions Engineering College</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a237e;
+            --primary-light: #283593;
+            --accent: #f57c00;
+            --accent-light: #ff9800;
+            --text-dark: #1a1a2e;
+            --text-light: #f5f5f5;
+            --gradient-hero: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%);
+            --shadow: 0 8px 32px rgba(0,0,0,0.12);
+            --shadow-hover: 0 16px 48px rgba(0,0,0,0.2);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: var(--text-dark); overflow-x: hidden; }
+
+        .top-bar {
+            background: var(--primary);
+            color: #fff;
+            padding: 0.5rem 0;
+            font-size: 0.85rem;
+        }
+        .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
+        .top-bar a { color: #ffcc02; text-decoration: none; margin-left: 1.5rem; }
+        .top-bar a:hover { text-decoration: underline; }
+        .top-bar i { margin-right: 0.4rem; }
+
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        .navbar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.15); }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .navbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+        .navbar .brand img { height: 48px; width: 48px; border-radius: 10px; }
+        .navbar .brand span { font-size: 1.25rem; font-weight: 700; line-height: 1.2; }
+        .navbar .brand small { display: block; font-size: 0.65rem; font-weight: 400; color: #666; letter-spacing: 0.5px; }
+        .nav-links { display: flex; align-items: center; gap: 0.3rem; list-style: none; }
+        .nav-links a {
+            text-decoration: none;
+            color: #444;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.92rem;
+            transition: all 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); background: #fff8e1; }
+        .nav-links .btn-dashboard {
+            background: var(--primary);
+            color: #fff !important;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+        }
+        .nav-links .btn-dashboard:hover { background: var(--primary-light); }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; padding: 5px; }
+        .hamburger span { width: 25px; height: 3px; background: var(--primary); border-radius: 3px; transition: 0.3s; }
+
+        .hero {
+            position: relative;
+            background: var(--gradient-hero);
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding: 4rem 0;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255,152,0,0.12) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .hero .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .hero-content h1 {
+            color: #fff;
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 0.5rem;
+        }
+        .hero-content h1 span { color: var(--accent); }
+        .hero-content .tagline {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin: 1.5rem 0 2rem;
+            max-width: 550px;
+        }
+        .hero-content .tagline i { color: var(--accent); margin-right: 0.5rem; }
+        .hero-badges { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+        .hero-badges span {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .hero-badges span i { color: var(--accent); margin-right: 0.4rem; }
+        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 20px rgba(245,124,0,0.35); }
+        .btn-primary:hover { background: #e65100; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,124,0,0.45); }
+        .btn-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.3); }
+        .btn-outline:hover { border-color: var(--accent); background: rgba(245,124,0,0.1); transform: translateY(-2px); }
+        .btn-dash { background: #fff; color: var(--primary); }
+        .btn-dash:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-visual img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 4px solid rgba(255,255,255,0.1);
+        }
+        .hero-float-card {
+            position: absolute;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        .hero-float-card.c1 { bottom: -20px; left: -20px; }
+        .hero-float-card.c2 { top: 20px; right: -10px; animation-delay: 1.5s; }
+        .hero-float-card i { font-size: 2rem; color: var(--accent); }
+        .hero-float-card .num { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .hero-float-card .lbl { font-size: 0.8rem; color: #666; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .section {
+            padding: 5rem 0;
+        }
+        .section-alt { background: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+        }
+        .section-title h2 span { color: var(--accent); }
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .section-title .line {
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 4px;
+            margin: 1rem auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .about-content h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+        }
+        .about-content p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+        .about-content ul { list-style: none; margin: 1.5rem 0; }
+        .about-content ul li {
+            padding: 0.5rem 0;
+            font-size: 1rem;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .about-content ul li i { color: var(--accent); width: 20px; }
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: -3rem;
+            position: relative;
+            z-index: 2;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+        .stat-card i { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
+        .stat-card .num { font-size: 2.5rem; font-weight: 800; color: var(--primary); }
+        .stat-card .lbl { color: #666; font-size: 0.95rem; margin-top: 0.3rem; font-weight: 500; }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .course-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            border-top: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .course-card:hover::before { opacity: 1; }
+        .course-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+        .course-card .icon {
+            width: 60px;
+            height: 60px;
+            background: #e8eaf6;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+        }
+        .course-card .icon i { font-size: 1.8rem; color: var(--primary); }
+        .course-card h3 { font-size: 1.3rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .course-card p { color: #666; font-size: 0.95rem; line-height: 1.6; }
+
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .dept-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 1.8rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+        .dept-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .dept-card .icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        .dept-card h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 0.4rem; }
+        .dept-card p { font-size: 0.85rem; color: #777; }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            aspect-ratio: 4/3;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s;
+        }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: #fff;
+            transform: translateY(100%);
+            transition: all 0.3s;
+        }
+        .gallery-item:hover .overlay { transform: translateY(0); }
+        .gallery-item .overlay h4 { font-size: 1rem; margin-bottom: 0.2rem; }
+        .gallery-item .overlay p { font-size: 0.85rem; opacity: 0.8; }
+
+        .map-section {
+            padding: 5rem 0;
+            background: #f8f9fa;
+        }
+        .map-wrapper {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .map-wrapper iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            display: block;
+        }
+
+        .presentation-carousel {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .presentation-carousel .slides { display: flex; transition: transform 0.5s ease; }
+        .presentation-carousel .slide {
+            min-width: 100%;
+            aspect-ratio: 16/9;
+            position: relative;
+        }
+        .presentation-carousel .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .presentation-carousel .slide .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: #fff;
+        }
+        .presentation-carousel .slide .caption h3 { font-size: 1.3rem; margin-bottom: 0.3rem; }
+        .presentation-carousel .slide .caption p { opacity: 0.9; font-size: 0.95rem; }
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .carousel-controls button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary);
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(26,35,126,0.3);
+        }
+        .carousel-controls button:hover { background: var(--accent); transform: scale(1.1); }
+        .carousel-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem; }
+        .carousel-dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .carousel-dots span.active { background: var(--accent); transform: scale(1.3); }
+
+        .footer {
+            background: var(--primary);
+            color: rgba(255,255,255,0.85);
+            padding: 4rem 0 0;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+        .footer h3, .footer h4 {
+            color: #fff;
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+        }
+        .footer p, .footer a {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            font-size: 0.92rem;
+        }
+        .footer a { text-decoration: none; display: block; transition: color 0.3s; }
+        .footer a:hover { color: var(--accent); }
+        .footer .social-links { display: flex; gap: 1rem; margin-top: 1.2rem; }
+        .footer .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        .footer .social-links a:hover { background: var(--accent); transform: translateY(-3px); }
+        .footer .footer-brand img { height: 50px; width: 50px; border-radius: 12px; margin-bottom: 1rem; }
+        .footer .footer-brand h3 { font-size: 1.2rem; }
+        .footer .copyright {
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(245,124,0,0.4);
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+        .scroll-top.visible { opacity: 1; visibility: visible; }
+        .scroll-top:hover { transform: translateY(-3px); }
+
+        @media (max-width: 968px) {
+            .hero .container { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .hero-content .tagline { max-width: 100%; }
+            .hero-badges { justify-content: center; }
+            .hero-buttons { justify-content: center; }
+            .hero-visual img { max-width: 350px; }
+            .hero-float-card.c1 { bottom: -10px; left: 10px; }
+            .hero-float-card.c2 { display: none; }
+            .about-grid { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; flex-direction: column; padding: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.open { display: flex; }
+            .hamburger { display: flex; }
+        }
+        @media (max-width: 576px) {
+            .stats-row { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 1.8rem; }
+            .top-bar .container { flex-direction: column; gap: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container">
+        <span><i class="fas fa-phone"></i> For Admissions: +91 90104 55590 <i class="fas fa-envelope" style="margin-left:1.5rem"></i> enquiry@mtiet.ac.in</span>
+        <span>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="{% url 'students:dashboard' %}"><i class="fas fa-user-lock"></i> Dashboard</a>
+        </span>
+    </div>
+</div>
+
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand">
+            <img src="{% static 'images/logo.svg' %}" alt="MTIET Logo">
+            <span>MTIET <small>Mother Theresa Institutions</small></span>
+        </a>
+        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#courses">Courses</a></li>
+            <li><a href="#departments">Departments</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'students:dashboard' %}" class="btn-dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            {% else %}
+            <li><a href="{% url 'accounts:login' %}" class="btn-dashboard"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badges">
+                <span><i class="fas fa-star"></i> NAAC Accredited</span>
+                <span><i class="fas fa-check-circle"></i> UGC Autonomous</span>
+                <span><i class="fas fa-trophy"></i> JNTUH Gold Medalist</span>
+            </div>
+            <h1>Shape Your Future at <span>MTIET</span></h1>
+            <p class="tagline">
+                <i class="fas fa-quote-left"></i> Empowering minds with world-class engineering education, 
+                innovation, and industry excellence. Your journey to becoming a global tech leader starts here.
+            </p>
+            <div class="hero-buttons">
+                <a href="#courses" class="btn btn-primary"><i class="fas fa-graduation-cap"></i> Explore Courses</a>
+                <a href="#contact" class="btn btn-outline"><i class="fas fa-map-marker-alt"></i> Visit Campus</a>
+                <a href="{% url 'students:dashboard' %}" class="btn btn-dash"><i class="fas fa-tachometer-alt"></i> Campus Hub</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <img src="{% static 'images/banner.svg' %}" alt="MTIET Campus" onerror="this.style.display='none'">
+            <div class="hero-float-card c1">
+                <i class="fas fa-users"></i>
+                <div><div class="num">{{ total_students }}+</div><div class="lbl">Students</div></div>
+            </div>
+            <div class="hero-float-card c2">
+                <i class="fas fa-flask"></i>
+                <div><div class="num">{{ total_depts }}</div><div class="lbl">Departments</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-bottom:0">
+    <div class="container">
+        <div class="stats-row">
+            <div class="stat-card">
+                <i class="fas fa-graduation-cap"></i>
+                <div class="num">{{ total_students }}+</div>
+                <div class="lbl">Students Enrolled</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <div class="num">{{ total_depts }}</div>
+                <div class="lbl">Departments</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-briefcase"></i>
+                <div class="num">95%</div>
+                <div class="lbl">Placements</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-trophy"></i>
+                <div class="num">50+</div>
+                <div class="lbl">Awards Won</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-content">
+                <h3>Welcome to <span style="color:var(--accent)">MTIET</span></h3>
+                <p>Mother Theresa Institutions Engineering College (MTIET) is a premier engineering institution 
+                dedicated to nurturing technically competent, ethically strong, and socially responsible engineers. 
+                With state-of-the-art infrastructure, industry-aligned curriculum, and experienced faculty, we 
+                provide an unparalleled learning environment.</p>
+                <p>Our campus is spread across a lush green landscape with modern laboratories, smart classrooms, 
+                a vast library, and world-class sports facilities. We focus on holistic development through 
+                academics, research, innovation, and extracurricular activities.</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> NAAC 'A' Grade Accredited</li>
+                    <li><i class="fas fa-check-circle"></i> UGC Autonomous Status</li>
+                    <li><i class="fas fa-check-circle"></i> Awarded Two Gold Medals by JNTUH</li>
+                    <li><i class="fas fa-check-circle"></i> 100% Admissions Record</li>
+                    <li><i class="fas fa-check-circle"></i> Industry-Recognized & Globally Connected</li>
+                </ul>
+                <a href="#courses" class="btn btn-primary" style="margin-top:1rem"><i class="fas fa-arrow-right"></i> Know More</a>
+            </div>
+            <div class="about-image">
+                <img src="{% static 'images/banner.svg' %}" alt="MTIET Campus" onerror="this.style.background='#e8eaf6';this.style.padding='5rem';this.style.textAlign='center';this.alt='MTIET Campus Photo'">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section-alt" id="courses">
+    <div class="container">
+        <div class="section-title">
+            <div class="line"></div>
+            <h2>Our <span>Courses</span></h2>
+            <p>High-demand programs designed to shape future-ready professionals with industry-aligned curriculum and hands-on learning.</p>
+        </div>
+        <div class="courses-grid">
+            <div class="course-card">
+                <div class="icon"><i class="fas fa-laptop-code"></i></div>
+                <h3>B.Tech CSE</h3>
+                <p>Build cutting-edge software applications, master full-stack development, and become a leader in the tech industry.</p>
+            </div>
+            <div class="course-card">
+                <div class="icon"><i class="fas fa-robot"></i></div>
+                <h3>B.Tech CSE (AI & ML)</h3>
+                <p>Develop intelligent systems, deep learning models, and AI-powered solutions for real-world problems.</p>
+            </div>
+            <div class="course-card">
+                <div class="icon"><i class="fas fa-chart-bar"></i></div>
+                <h3>B.Tech AI & Data Science</h3>
+                <p>Master data analytics, big data processing, and become a data engineer driving business insights.</p>
+            </div>
+            <div class="course-card">
+                <div class="icon"><i class="fas fa-microchip"></i></div>
+                <h3>Diploma in Engineering</h3>
+                <p>Practical, hands-on diploma programs in CSE and Embedded Systems to kickstart your engineering career.</p>
+            </div>
+            <div class="course-card">
+                <div class="icon"><i class="fas fa-pills"></i></div>
+                <h3>B.Pharmacy</h3>
+                <p>Comprehensive pharmacy education blending pharmaceutical sciences with practical clinical training.</p>
+            </div>
+            <div class="course-card">
+                <div class="icon"><i class="fas fa-cogs"></i></div>
+                <h3>M.Tech Programs</h3>
+                <p>Advanced specialization in emerging fields with research-focused curriculum and industry projects.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="departments">
+    <div class="container">
+        <div class="section-title">
+            <div class="line"></div>
+            <h2>Our <span>Departments</span></h2>
+            <p>Centers of excellence with dedicated faculty, advanced labs, and a vibrant research ecosystem.</p>
+        </div>
+        <div class="dept-grid">
+            {% for dept in dept_stats %}
+            <div class="dept-card">
+                <div class="icon" style="background:{% cycle '#e8eaf6' '#fff3e0' '#e8f5e9' '#fce4ec' '#f3e5f5' '#e0f7fa' %}">
+                    <i class="fas fa-{% cycle 'laptop-code' 'microchip' 'cogs' 'bolt' 'flask' 'book' %}" style="color:{% cycle '#283593' '#e65100' '#2e7d32' '#c62828' '#6a1b9a' '#00838f' %}"></i>
+                </div>
+                <h3>{{ dept.name }}</h3>
+                <p>{{ dept.n }} Students &middot; Avg {{ dept.avg_marks|floatformat:0 }}%</p>
+            </div>
+            {% empty %}
+            <div class="dept-card">
+                <div class="icon" style="background:#e8eaf6"><i class="fas fa-laptop-code" style="color:#283593"></i></div>
+                <h3>Computer Science</h3>
+                <p>Excellence in computing education</p>
+            </div>
+            <div class="dept-card">
+                <div class="icon" style="background:#fff3e0"><i class="fas fa-microchip" style="color:#e65100"></i></div>
+                <h3>Electronics & Communication</h3>
+                <p>Innovation in embedded systems</p>
+            </div>
+            <div class="dept-card">
+                <div class="icon" style="background:#e8f5e9"><i class="fas fa-cogs" style="color:#2e7d32"></i></div>
+                <h3>Mechanical Engineering</h3>
+                <p>Design and manufacturing excellence</p>
+            </div>
+            <div class="dept-card">
+                <div class="icon" style="background:#fce4ec"><i class="fas fa-bolt" style="color:#c62828"></i></div>
+                <h3>Electrical & Electronics</h3>
+                <p>Powering the future</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section section-alt" id="gallery">
+    <div class="container">
+        <div class="section-title">
+            <div class="line"></div>
+            <h2>Campus <span>Gallery</span></h2>
+            <p>Explore the vibrant life at MTIET — where every corner tells a story of excellence and innovation.</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="{% static 'images/banner.svg' %}" alt="Campus" onerror="this.style.background='#1a237e';this.style.display='flex';this.style.alignItems='center';this.style.justifyContent='center'">
+                <div class="overlay"><h4>Main Campus</h4><p>Sprawling green campus</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/logo.svg' %}" alt="Library" onerror="this.style.background='#283593';">
+                <div class="overlay"><h4>Central Library</h4><p>69,000+ books & digital resources</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/student1.jpg' %}" alt="Lab" onerror="this.style.background='#3949ab';">
+                <div class="overlay"><h4>Smart Labs</h4><p>State-of-the-art equipment</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/student2.jpg' %}" alt="Sports" onerror="this.style.background='#1a237e';">
+                <div class="overlay"><h4>Sports Complex</h4><p>10-acre multi-sport arena</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/student3.jpg' %}" alt="Library" onerror="this.style.background='#283593';">
+                <div class="overlay"><h4>Digital Library</h4><p>24/7 access to online resources</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/student4.jpg' %}" alt="Hostel" onerror="this.style.background='#3949ab';">
+                <div class="overlay"><h4>Hostel Life</h4><p>Comfortable accommodation for 1,750</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="presentations">
+    <div class="container">
+        <div class="section-title">
+            <div class="line"></div>
+            <h2>MTIET <span>Highlights</span></h2>
+            <p>A glimpse into the achievements, infrastructure, and vibrant campus life at MTIET.</p>
+        </div>
+        <div class="presentation-carousel" id="carousel">
+            <div class="slides" id="slides">
+                <div class="slide">
+                    <img src="{% static 'images/banner.svg' %}" alt="Welcome to MTIET" onerror="this.parentElement.innerHTML='<div style=\'background:linear-gradient(135deg,#1a237e,#3949ab);height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;padding:4rem;text-align:center\'><i class=\'fas fa-graduation-cap\' style=\'font-size:4rem;margin-bottom:1rem;color:#ff9800\'></i><h2 style=\'font-size:2rem\'>Welcome to MTIET</h2><p style=\'margin-top:0.5rem;opacity:0.8\'>Excellence in Engineering Education</p></div>'">
+                    <div class="caption"><h3>Welcome to MTIET</h3><p>Excellence in Engineering Education Since 1998</p></div>
+                </div>
+                <div class="slide">
+                    <img src="{% static 'images/logo.svg' %}" alt="Infrastructure" onerror="this.parentElement.innerHTML='<div style=\'background:linear-gradient(135deg,#283593,#5c6bc0);height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;padding:4rem;text-align:center\'><i class=\'fas fa-building\' style=\'font-size:4rem;margin-bottom:1rem;color:#ff9800\'></i><h2 style=\'font-size:2rem\'>World-Class Infrastructure</h2><p style=\'margin-top:0.5rem;opacity:0.8\'>120-Acre Smart Campus with Modern Facilities</p></div>'">
+                    <div class="caption"><h3>World-Class Infrastructure</h3><p>120-Acre Smart Campus with Modern Facilities</p></div>
+                </div>
+                <div class="slide">
+                    <img src="{% static 'images/student1.jpg' %}" alt="Placements" onerror="this.parentElement.innerHTML='<div style=\'background:linear-gradient(135deg,#e65100,#ff9800);height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;padding:4rem;text-align:center\'><i class=\'fas fa-briefcase\' style=\'font-size:4rem;margin-bottom:1rem\'></i><h2 style=\'font-size:2rem\'>Top Placements</h2><p style=\'margin-top:0.5rem;opacity:0.8\'>Highest Package: 48 LPA | 90% Placement Rate</p></div>'">
+                    <div class="caption"><h3>Top Placements</h3><p>Highest Package: 48 LPA | 90% Placement Rate</p></div>
+                </div>
+                <div class="slide">
+                    <img src="{% static 'images/student2.jpg' %}" alt="AI Hub" onerror="this.parentElement.innerHTML='<div style=\'background:linear-gradient(135deg,#00695c,#26a69a);height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;padding:4rem;text-align:center\'><i class=\'fas fa-robot\' style=\'font-size:4rem;margin-bottom:1rem;color:#ff9800\'></i><h2 style=\'font-size:2rem\'>AI Hub</h2><p style=\'margin-top:0.5rem;opacity:0.8\'>Your Launchpad to AI Leadership</p></div>'">
+                    <div class="caption"><h3>AI Hub</h3><p>Your Launchpad to AI Leadership</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-dots" id="dots"></div>
+        <div class="carousel-controls">
+            <button onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+            <button onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</section>
+
+<section class="map-section" id="contact">
+    <div class="container">
+        <div class="section-title">
+            <div class="line"></div>
+            <h2>Find Us on <span>Map</span></h2>
+            <p>Visit our campus at Palamaner, Chittoor District, Andhra Pradesh</p>
+        </div>
+        <div class="map-wrapper">
+            <iframe 
+                src="https://www.google.com/maps?q=Mother+Theresa+Institutions+Engineering+College+Palamaner&output=embed"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+        <div style="text-align:center;margin-top:1rem">
+            <a href="https://www.google.com/maps/dir/?api=1&destination=13.243372,78.7265317" target="_blank" class="btn btn-primary" style="display:inline-flex">
+                <i class="fas fa-directions"></i> Get Directions
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="{% static 'images/logo.svg' %}" alt="MTIET Logo">
+                <h3>Mother Theresa Institutions</h3>
+                <p style="margin-top:0.8rem">Empowering minds with world-class engineering education, innovation, and industry excellence since 1998.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="#about">About Us</a>
+                <a href="#courses">Courses</a>
+                <a href="#departments">Departments</a>
+                <a href="#gallery">Gallery</a>
+                <a href="{% url 'students:dashboard' %}">Campus Hub</a>
+            </div>
+            <div>
+                <h4>Courses</h4>
+                <a href="#courses">B.Tech CSE</a>
+                <a href="#courses">B.Tech CSE (AI&ML)</a>
+                <a href="#courses">B.Tech AI & DS</a>
+                <a href="#courses">Diploma</a>
+                <a href="#courses">B.Pharmacy</a>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <p><i class="fas fa-map-marker-alt" style="margin-right:0.5rem;color:var(--accent)"></i>Palamaner, Chittoor Dist.</p>
+                <p><i class="fas fa-phone" style="margin-right:0.5rem;color:var(--accent)"></i>+91 90104 55590</p>
+                <p><i class="fas fa-envelope" style="margin-right:0.5rem;color:var(--accent)"></i>enquiry@mtiet.ac.in</p>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; {% now "Y" %} Mother Theresa Institutions. All Rights Reserved. | Powered by CampusHub
+        </div>
+    </div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+    function toggleMenu() {
+        document.getElementById('navLinks').classList.toggle('open');
+        document.getElementById('hamburger').classList.toggle('active');
+    }
+
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('#slides .slide');
+    const totalSlides = slides.length;
+    const dotsContainer = document.getElementById('dots');
+
+    if (slides.length > 0) {
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('span');
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        }
+        updateDots();
+    }
+
+    function goToSlide(n) {
+        currentSlide = n;
+        if (currentSlide < 0) currentSlide = totalSlides - 1;
+        if (currentSlide >= totalSlides) currentSlide = 0;
+        const offset = -currentSlide * 100;
+        document.getElementById('slides').style.transform = `translateX(${offset}%)`;
+        updateDots();
+    }
+
+    function nextSlide() { goToSlide(currentSlide + 1); }
+    function prevSlide() { goToSlide(currentSlide - 1); }
+
+    function updateDots() {
+        const dots = document.querySelectorAll('#dots span');
+        dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+    }
+
+    setInterval(nextSlide, 4000);
+
+    window.addEventListener('scroll', () => {
+        const btn = document.getElementById('scrollTop');
+        btn.classList.toggle('visible', window.scrollY > 400);
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                document.getElementById('navLinks')?.classList.remove('open');
+            }
+        });
+    });
+</script>
+</body>
+</html>

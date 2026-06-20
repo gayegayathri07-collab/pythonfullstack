@@ -9,6 +9,18 @@ from datetime import timedelta
 from .models import Student, Department, Course, Attendance
 from .forms import ContactForm, StudentForm
 
+def landing(request):
+    dept_stats = Department.objects.annotate(n=Count('students'), avg_marks=Avg('students__marks'))
+    total_students = Student.objects.count()
+    total_depts = Department.objects.count()
+    latest_students = Student.objects.select_related('department').order_by('-admitted')[:6]
+    return render(request, "students/landing.html", {
+        'dept_stats': dept_stats,
+        'total_students': total_students,
+        'total_depts': total_depts,
+        'latest_students': latest_students,
+    })
+
 def dashboard(request):
     students = Student.objects.select_related('department').all()
     dept_stats = Department.objects.annotate(n=Count('students'), avg_marks=Avg('students__marks'))

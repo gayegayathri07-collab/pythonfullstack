@@ -84,7 +84,7 @@ STORAGES = {
 }
 
 LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'students:dashboard'
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'accounts:login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
