@@ -672,8 +672,8 @@
 <nav class="navbar" id="navbar">
     <div class="container">
         <a href="{% url 'home' %}" class="brand">
-            <img src="{% static 'images/mtiet-logo.png' %}" alt="MTI Logo" style="width:40px;height:40px;border-radius:10px;flex-shrink:0">
-            <span style="font-size:1rem">MTI <small style="font-size:0.6rem">Mother Theresa Institutions</small></span>
+            <svg viewBox="0 0 220 64" style="width:160px;height:44px;flex-shrink:0"><rect x="0" y="0" width="64" height="64" rx="14" fill="#ff9800"/><text x="32" y="24" text-anchor="middle" fill="#1a237e" font-size="20" font-weight="900" font-family="Arial,sans-serif">MTI</text><text x="32" y="39" text-anchor="middle" fill="#fff" font-size="6" font-weight="600" font-family="Arial,sans-serif">MOTHER</text><text x="32" y="47" text-anchor="middle" fill="#fff" font-size="6" font-weight="600" font-family="Arial,sans-serif">THERESA</text><rect x="72" y="12" width="1" height="40" rx="0.5" fill="rgba(255,255,255,0.2)"/><text x="82" y="30" fill="#fff" font-size="18" font-weight="800" font-family="Arial,sans-serif">Mother Theresa</text><text x="82" y="46" fill="rgba(255,255,255,0.7)" font-size="9" font-family="Arial,sans-serif">Institutions &mdash; Est. 1998</text></svg>
+            <span style="display:none">MTI</span>
         </a>
         <div class="hamburger" id="hamburger" onclick="toggleMenu()">
             <span></span><span></span><span></span>
@@ -711,11 +711,7 @@
     <div class="container">
         <div class="hero-content">
             <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.5rem">
-                <img src="{% static 'images/mtiet-logo.png' %}" alt="MTI Logo" style="width:52px;height:52px;border-radius:12px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.2)">
-                <div>
-                    <h1 style="font-size:1.4rem;margin:0;color:#fff;font-weight:800">Mother Theresa <span style="color:var(--accent)">Institutions</span></h1>
-                    <p style="color:rgba(255,255,255,0.6);font-size:0.75rem;margin:0"><i class="fas fa-graduation-cap" style="color:var(--accent);margin-right:0.3rem"></i>MTIET &middot; MBA &middot; Degree &middot; Junior College</p>
-                </div>
+                <svg viewBox="0 0 220 64" style="width:190px;height:54px;flex-shrink:0"><rect x="0" y="0" width="64" height="64" rx="14" fill="#ff9800"/><text x="32" y="24" text-anchor="middle" fill="#1a237e" font-size="20" font-weight="900" font-family="Arial,sans-serif">MTI</text><text x="32" y="39" text-anchor="middle" fill="#fff" font-size="6" font-weight="600" font-family="Arial,sans-serif">MOTHER</text><text x="32" y="47" text-anchor="middle" fill="#fff" font-size="6" font-weight="600" font-family="Arial,sans-serif">THERESA</text><rect x="72" y="12" width="1.5" height="40" rx="0.5" fill="rgba(255,255,255,0.3)"/><text x="82" y="30" fill="#fff" font-size="18" font-weight="800" font-family="Arial,sans-serif">Mother Theresa</text><text x="82" y="46" fill="rgba(255,255,255,0.7)" font-size="9" font-family="Arial,sans-serif">Institutions &mdash; Est. 1998</text></svg>
             </div>
             <h1 style="font-size:1.5rem;margin-bottom:0.3rem">Shape Your <span style="color:var(--accent)">Future</span> Here</h1>
             <p style="color:rgba(255,255,255,0.8);font-size:0.85rem;line-height:1.5;margin-bottom:0.8rem"><span id="typewriter"></span><span class="typewriter-cursor"></span></p>
