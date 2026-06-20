@@ -1,1 +1,1 @@
-web: gunicorn campushub.wsgi:application
+web: gunicorn campushub.wsgi:application --bind 0.0.0.0:$PORT
