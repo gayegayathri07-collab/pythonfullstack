@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Location | CampusHub{% endblock %}
+
+{% block content %}
+<style>
+.location-hero {
+    background: linear-gradient(135deg, #07070d 0%, #141428 30%, #1a0a3e 60%, #2d1b69 100%);
+    padding: 3rem 2rem;
+    border-radius: 24px;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.location-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 60%);
+    border-radius: 50%;
+    animation: glow 6s ease-in-out infinite alternate;
+}
+@keyframes glow {
+    0% { transform: translate(0,0) scale(1); }
+    100% { transform: translate(30px,-20px) scale(1.1); }
+}
+.location-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    position: relative;
+    background: linear-gradient(135deg, #fff 0%, #c4b5fd 40%, #a78bfa 70%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+}
+.location-hero p {
+    opacity: 0.6;
+    font-size: 1rem;
+    position: relative;
+    color: #94a3b8;
+    margin-top: 0.5rem;
+}
+.location-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+.location-card {
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: all 0.4s;
+}
+.location-card:hover {
+    border-color: rgba(124,58,237,0.12);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+}
+.location-card h2 {
+    color: #e2e8f0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.location-card .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+.location-card .info-row .icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+}
+.location-card .info-row .label {
+    color: #64748b;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+.location-card .info-row .value {
+    color: #e2e8f0;
+}
+#map {
+    width: 100%;
+    height: 450px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.04);
+    margin-bottom: 2rem;
+}
+@media (max-width: 768px) {
+    .location-grid {
+        grid-template-columns: 1fr;
+    }
+    #map {
+        height: 300px;
+    }
+}
+</style>
+
+<div class="location-hero">
+    <h1>&#128205; Our Location</h1>
+    <p>Mother Theresa Institute of Engineering and Technology &mdash; Palamaner, Chittoor</p>
+</div>
+
+<div class="location-grid">
+    <div class="location-card">
+        <h2>&#127968; Address</h2>
+        <div class="info-row">
+            <div class="icon">&#128205;</div>
+            <div>
+                <div class="label">Institute</div>
+                <div class="value">Mother Theresa Institute of Engineering and Technology</div>
+            </div>
+        </div>
+        <div class="info-row">
+            <div class="icon">&#128204;</div>
+            <div>
+                <div class="label">Location</div>
+                <div class="value">Melumoi Post, Madanapalli Road</div>
+            </div>
+        </div>
+        <div class="info-row">
+            <div class="icon">&#127963;</div>
+            <div>
+                <div class="label">City</div>
+                <div class="value">Palamaner, Chittoor District - 517408</div>
+            </div>
+        </div>
+        <div class="info-row">
+            <div class="icon">&#127758;</div>
+            <div>
+                <div class="label">State</div>
+                <div class="value">Andhra Pradesh, India</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="location-card">
+        <h2>&#128222; Contact</h2>
+        <div class="info-row">
+            <div class="icon">&#128222;</div>
+            <div>
+                <div class="label">Phone</div>
+                <div class="value">9866888648, 08579-268589</div>
+            </div>
+        </div>
+        <div class="info-row">
+            <div class="icon">&#128231;</div>
+            <div>
+                <div class="label">Email</div>
+                <div class="value">mtieat@gmail.com</div>
+            </div>
+        </div>
+        <div class="info-row">
+            <div class="icon">&#127760;</div>
+            <div>
+                <div class="label">Website</div>
+                <div class="value"><a href="http://mtitech.edu.in" target="_blank" style="color:#a78bfa;text-decoration:none;">mtitech.edu.in</a></div>
+            </div>
+        </div>
+        <div class="info-row">
+            <div class="icon">&#128205;</div>
+            <div>
+                <div class="label">ICET Code</div>
+                <div class="value">MTIET</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="map"></div>
+{% endblock %}
+
+{% block extra_js %}{% endblock %}
