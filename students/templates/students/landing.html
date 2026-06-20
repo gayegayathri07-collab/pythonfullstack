@@ -527,7 +527,7 @@
             transition: all 0.3s;
         }
         .footer .social-links a:hover { background: var(--accent); transform: translateY(-3px); }
-        .footer .footer-brand img { height: 30px; width: 30px; border-radius: 8px; margin-bottom: 0.3rem; }
+        .footer .footer-brand svg { border-radius: 10px; }
         .footer .footer-brand h3 { font-size: 0.9rem; }
         .footer .copyright {
             text-align: center;
@@ -678,7 +678,7 @@
 <nav class="navbar" id="navbar">
     <div class="container">
         <a href="{% url 'home' %}" class="brand">
-            <svg viewBox="0 0 220 64" style="width:160px;height:44px;flex-shrink:0"><rect x="0" y="0" width="64" height="64" rx="14" fill="#ff9800"/><text x="32" y="24" text-anchor="middle" fill="#1a237e" font-size="20" font-weight="900" font-family="Arial,sans-serif">MTI</text><text x="32" y="39" text-anchor="middle" fill="#fff" font-size="6" font-weight="600" font-family="Arial,sans-serif">MOTHER</text><text x="32" y="47" text-anchor="middle" fill="#fff" font-size="6" font-weight="600" font-family="Arial,sans-serif">THERESA</text><rect x="72" y="12" width="1" height="40" rx="0.5" fill="rgba(255,255,255,0.2)"/><text x="82" y="30" fill="#fff" font-size="18" font-weight="800" font-family="Arial,sans-serif">Mother Theresa</text><text x="82" y="46" fill="rgba(255,255,255,0.7)" font-size="9" font-family="Arial,sans-serif">Institutions &mdash; Est. 1998</text></svg>
+            <svg viewBox="0 0 280 64" style="width:210px;height:48px;flex-shrink:0"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a237e"/><stop offset="100%" stop-color="#283593"/></linearGradient></defs><rect x="0" y="0" width="64" height="64" rx="12" fill="url(#sg)" stroke="#ff9800" stroke-width="1.5"/><path d="M12 32 L32 14 L52 32 L44 40 L32 30 L20 40 Z" fill="#ff9800" opacity="0.9"/><path d="M22 34 L32 24 L42 34 L38 38 L32 32 L26 38 Z" fill="#1a237e"/><text x="32" y="52" text-anchor="middle" fill="#fff" font-size="5.5" font-weight="700" font-family="Arial,sans-serif">EST. 1998</text><rect x="72" y="12" width="1.2" height="40" rx="0.6" fill="rgba(255,255,255,0.2)"/><text x="82" y="27" fill="#fff" font-size="12" font-weight="900" font-family="Arial,sans-serif">MTI</text><text x="82" y="40" fill="rgba(255,255,255,0.8)" font-size="7" font-family="Arial,sans-serif">Mother Theresa</text><text x="82" y="50" fill="rgba(255,255,255,0.55)" font-size="6.5" font-family="Arial,sans-serif">Institutions of Learning</text></svg>
             <span style="display:none">MTI</span>
         </a>
         <div class="hamburger" id="hamburger" onclick="toggleMenu()">
@@ -717,7 +717,7 @@
     <div class="container">
         <div class="hero-content">
             <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.5rem">
-                <svg viewBox="0 0 220 64" style="width:190px;height:54px;flex-shrink:0"><rect x="0" y="0" width="64" height="64" rx="14" fill="#ff9800"/><text x="32" y="24" text-anchor="middle" fill="#1a237e" font-size="20" font-weight="900" font-family="Arial,sans-serif">MTI</text><text x="32" y="39" text-anchor="middle" fill="#fff" font-size="6" font-weight="600" font-family="Arial,sans-serif">MOTHER</text><text x="32" y="47" text-anchor="middle" fill="#fff" font-size="6" font-weight="600" font-family="Arial,sans-serif">THERESA</text><rect x="72" y="12" width="1.5" height="40" rx="0.5" fill="rgba(255,255,255,0.3)"/><text x="82" y="30" fill="#fff" font-size="18" font-weight="800" font-family="Arial,sans-serif">Mother Theresa</text><text x="82" y="46" fill="rgba(255,255,255,0.7)" font-size="9" font-family="Arial,sans-serif">Institutions &mdash; Est. 1998</text></svg>
+                <svg viewBox="0 0 300 72" style="width:260px;height:62px;flex-shrink:0"><defs><linearGradient id="sg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a237e"/><stop offset="100%" stop-color="#283593"/></linearGradient></defs><rect x="0" y="0" width="72" height="72" rx="14" fill="url(#sg2)" stroke="#ff9800" stroke-width="2"/><path d="M14 36 L36 16 L58 36 L50 44 L36 34 L22 44 Z" fill="#ff9800" opacity="0.9"/><path d="M26 40 L36 28 L46 40 L42 44 L36 38 L30 44 Z" fill="#1a237e"/><text x="36" y="60" text-anchor="middle" fill="#fff" font-size="6" font-weight="700" font-family="Arial,sans-serif">EST. 1998</text><rect x="82" y="14" width="1.5" height="44" rx="0.6" fill="rgba(255,255,255,0.3)"/><text x="94" y="32" fill="#fff" font-size="15" font-weight="900" font-family="Arial,sans-serif">Mother Theresa</text><text x="94" y="48" fill="rgba(255,255,255,0.8)" font-size="8" font-family="Arial,sans-serif">Institutions of Learning</text><text x="94" y="60" fill="rgba(255,255,255,0.5)" font-size="6.5" font-family="Arial,sans-serif">MTIET &middot; MBA &middot; Degree &middot; Junior College</text></svg>
             </div>
             <h1 style="font-size:1.5rem;margin-bottom:0.3rem">Shape Your <span style="color:var(--accent)">Future</span> Here</h1>
             <p style="color:rgba(255,255,255,0.8);font-size:0.85rem;line-height:1.5;margin-bottom:0.8rem"><span id="typewriter"></span><span class="typewriter-cursor"></span></p>
@@ -1589,9 +1589,9 @@
     <div class="container">
         <div class="footer-grid">
             <div class="footer-brand">
-                <img src="{% static 'images/mtiet-logo.png' %}" alt="MTI Logo">
-                <h3>MTI - Mother Theresa Institutions</h3>
-                <p style="margin-top:0.8rem">Empowering minds with world-class engineering education, innovation, and industry excellence since 1998.</p>
+                <svg viewBox="0 0 64 64" style="width:50px;height:50px;border-radius:10px"><defs><linearGradient id="sg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a237e"/><stop offset="100%" stop-color="#283593"/></linearGradient></defs><rect x="0" y="0" width="64" height="64" rx="12" fill="url(#sg3)" stroke="#ff9800" stroke-width="1.5"/><path d="M12 32 L32 14 L52 32 L44 40 L32 30 L20 40 Z" fill="#ff9800" opacity="0.9"/><path d="M22 34 L32 24 L42 34 L38 38 L32 32 L26 38 Z" fill="#1a237e"/><text x="32" y="52" text-anchor="middle" fill="#fff" font-size="5.5" font-weight="700" font-family="Arial,sans-serif">EST. 1998</text></svg>
+                <h3 style="margin-top:0.4rem">MTI &mdash; Mother Theresa Institutions</h3>
+                <p style="margin-top:0.5rem;font-size:0.78rem">Empowering minds with world-class education, innovation, and industry excellence since 1998.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
