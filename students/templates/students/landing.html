@@ -85,11 +85,16 @@
         .hero {
             position: relative;
             background: var(--gradient-hero);
-            min-height: 85vh;
+            min-height: 70vh;
             display: flex;
             align-items: center;
             overflow: hidden;
-            padding: 4rem 0;
+            padding: 2rem 0;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: url("../images/mtiet-hero.jpg") center/cover no-repeat;
+            opacity: 0.25;
         }
         .hero::before {
             content: '';
@@ -124,7 +129,7 @@
         }
         .hero-content h1 {
             color: #fff;
-            font-size: 3.2rem;
+            font-size: 2.4rem;
             font-weight: 800;
             line-height: 1.15;
             margin-bottom: 0.5rem;
@@ -208,34 +213,42 @@
         }
 
         .section {
-            padding: 5rem 0;
+            padding: 3rem 0;
         }
         .section-alt { background: #f8f9fa; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
         .section-title {
             text-align: center;
-            margin-bottom: 3.5rem;
+            margin-bottom: 2rem;
         }
         .section-title h2 {
-            font-size: 2.2rem;
+            font-size: 1.6rem;
             color: var(--primary);
             font-weight: 800;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.4rem;
         }
         .section-title h2 span { color: var(--accent); }
         .section-title p {
             color: #666;
-            font-size: 1.1rem;
-            max-width: 700px;
+            font-size: 0.9rem;
+            max-width: 600px;
             margin: 0 auto;
-            line-height: 1.6;
+            line-height: 1.5;
         }
         .section-title .line {
-            width: 60px;
-            height: 4px;
+            width: 40px;
+            height: 3px;
             background: var(--accent);
             border-radius: 4px;
-            margin: 1rem auto;
+            margin: 0.6rem auto;
+        }
+        .card {
+            background:#fff; border-radius:12px; padding:1rem; box-shadow:0 2px 12px rgba(0,0,0,0.08); transition:all 0.3s;
+        }
+        .card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.12); }
+        .img-placeholder {
+            background: linear-gradient(135deg, #e8eaf6, #c5cae9); display:flex; align-items:center; justify-content:center;
+            color: var(--primary); font-size: 2rem; border-radius: 8px; min-height: 120px;
         }
 
         .about-grid {
@@ -563,6 +576,23 @@
             .top-bar .container { flex-direction: column; gap: 0.3rem; }
         }
 
+        /* Card entrance animation */
+        .card-in { animation: cardIn 0.6s ease forwards; opacity:0; }
+        @keyframes cardIn { from { opacity:0; transform:translateY(30px) scale(0.95); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+        /* Shimmer button effect */
+        .btn-shimmer { position:relative; overflow:hidden; }
+        .btn-shimmer::after { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:linear-gradient(45deg,transparent 40%,rgba(255,255,255,0.15) 50%,transparent 60%); animation:shimmer 3s infinite; }
+        @keyframes shimmer { 0% { transform:translateX(-100%) rotate(45deg); } 100% { transform:translateX(100%) rotate(45deg); } }
+
+        /* Pulse ring on stat cards */
+        .stat-card { position:relative; }
+        .stat-card::after { content:''; position:absolute; inset:0; border-radius:16px; border:2px solid var(--accent); opacity:0; animation:pulse-ring 2s infinite; }
+        .stat-card:nth-child(2)::after { animation-delay:0.5s; }
+        .stat-card:nth-child(3)::after { animation-delay:1s; }
+        .stat-card:nth-child(4)::after { animation-delay:1.5s; }
+        @keyframes pulse-ring { 0% { opacity:0.6; transform:scale(1); } 100% { opacity:0; transform:scale(1.05); } }
+
         /* Scroll reveal animation */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -642,7 +672,7 @@
 <nav class="navbar" id="navbar">
     <div class="container">
         <a href="{% url 'home' %}" class="brand">
-            <img src="{% static 'images/logo.svg' %}" alt="MTI Logo">
+            <svg viewBox="0 0 100 100" style="width:48px;height:48px;flex-shrink:0"><rect width="100" height="100" rx="20" fill="#1a237e"/><text x="50" y="38" text-anchor="middle" fill="#ff9800" font-size="26" font-weight="bold" font-family="Arial">MTI</text><text x="50" y="58" text-anchor="middle" fill="#fff" font-size="8" font-family="Arial">MOTHER</text><text x="50" y="70" text-anchor="middle" fill="#fff" font-size="8" font-family="Arial">THERESA</text></svg>
             <span>MTI <small>Mother Theresa Institutions</small></span>
         </a>
         <div class="hamburger" id="hamburger" onclick="toggleMenu()">
@@ -676,6 +706,7 @@
 </div>
 
 <section class="hero" id="home">
+    <div class="hero-bg"></div>
     <div class="particles"></div>
     <div class="container">
         <div class="hero-content">
@@ -719,7 +750,7 @@
             </div>
         </div>
         <div class="hero-visual">
-            <img src="{% static 'images/banner.svg' %}" alt="MTIET Campus" onerror="this.style.display='none'">
+            <img src="{% static 'images/mtiet-hero.jpg' %}" alt="MTIET Campus" style="width:100%;max-width:500px;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,0.3);" onerror="this.alt='MTIET Campus';this.style.background='linear-gradient(135deg,#283593,#3949ab)';this.style.padding='3rem';this.style.textAlign='center';this.style.color='#fff';this.style.fontWeight='bold';this.src=''">
             <div class="hero-float-card c1">
                 <i class="fas fa-users"></i>
                 <div><div class="num">{{ total_students }}+</div><div class="lbl">Students</div></div>
@@ -742,7 +773,7 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem">
             <a href="#courses" style="text-decoration:none;display:block">
                 <div class="course-card tilt-card" style="padding:0;overflow:hidden;text-align:center" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                    <img src="{% static 'images/engineering.svg' %}" alt="Engineering" style="width:100%;display:block" onerror="this.style.display='none'">
+                    <img src="{% static 'images/mtiet-engg.jpg' %}" alt="Engineering" style="width:100%;display:block;min-height:120px;object-fit:cover" onerror="this.alt='MTIET Engg';this.style.background='linear-gradient(135deg,#1a237e,#283593)';this.style.padding='2rem';this.style.color='#fff';this.style.fontWeight='bold';this.style.textAlign='center';this.src=''">
                     <div style="padding:1rem">
                         <span style="background:#e8eaf6;color:var(--primary);padding:0.2rem 0.8rem;border-radius:20px;font-size:0.75rem;font-weight:600">AICTE Approved</span>
                         <h3 style="margin-top:0.5rem;font-size:1.1rem">Engineering College</h3>
@@ -752,7 +783,7 @@
             </a>
             <a href="#courses" style="text-decoration:none;display:block">
                 <div class="course-card tilt-card" style="padding:0;overflow:hidden;text-align:center" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                    <img src="{% static 'images/mba.svg' %}" alt="MBA" style="width:100%;display:block" onerror="this.style.display='none'">
+                    <img src="{% static 'images/mtiet-mba.jpg' %}" alt="MBA" style="width:100%;display:block;min-height:120px;object-fit:cover" onerror="this.alt='MTIET MBA';this.style.background='linear-gradient(135deg,#4a148c,#7b1fa2)';this.style.padding='2rem';this.style.color='#fff';this.style.fontWeight='bold';this.style.textAlign='center';this.src=''">
                     <div style="padding:1rem">
                         <span style="background:#f3e5f5;color:#4a148c;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.75rem;font-weight:600">NBA Accredited</span>
                         <h3 style="margin-top:0.5rem;font-size:1.1rem">School of Management</h3>
@@ -762,7 +793,7 @@
             </a>
             <a href="#courses" style="text-decoration:none;display:block">
                 <div class="course-card tilt-card" style="padding:0;overflow:hidden;text-align:center" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                    <img src="{% static 'images/degree.svg' %}" alt="Degree" style="width:100%;display:block" onerror="this.style.display='none'">
+                    <img src="{% static 'images/mtiet-degree.jpg' %}" alt="Degree" style="width:100%;display:block;min-height:120px;object-fit:cover" onerror="this.alt='MTIET Degree';this.style.background='linear-gradient(135deg,#00695c,#26a69a)';this.style.padding='2rem';this.style.color='#fff';this.style.fontWeight='bold';this.style.textAlign='center';this.src=''">
                     <div style="padding:1rem">
                         <span style="background:#e0f2f1;color:#00695c;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.75rem;font-weight:600">UGC Affiliated</span>
                         <h3 style="margin-top:0.5rem;font-size:1.1rem">Degree College</h3>
@@ -772,7 +803,7 @@
             </a>
             <a href="#courses" style="text-decoration:none;display:block">
                 <div class="course-card tilt-card" style="padding:0;overflow:hidden;text-align:center" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                    <img src="{% static 'images/junior.svg' %}" alt="Junior College" style="width:100%;display:block" onerror="this.style.display='none'">
+                    <img src="{% static 'images/mtiet-junior.jpg' %}" alt="Junior College" style="width:100%;display:block;min-height:120px;object-fit:cover" onerror="this.alt='MTIET Junior';this.style.background='linear-gradient(135deg,#e65100,#ff9800)';this.style.padding='2rem';this.style.color='#fff';this.style.fontWeight='bold';this.style.textAlign='center';this.src=''">
                     <div style="padding:1rem">
                         <span style="background:#fff3e0;color:#e65100;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.75rem;font-weight:600">BIE Approved</span>
                         <h3 style="margin-top:0.5rem;font-size:1.1rem">Junior College</h3>
@@ -884,7 +915,7 @@
                 <a href="#courses" class="btn btn-primary" style="margin-top:1rem"><i class="fas fa-arrow-right"></i> Know More</a>
             </div>
             <div class="about-image">
-                <img src="{% static 'images/banner.svg' %}" alt="MTIET Campus" onerror="this.style.background='#e8eaf6';this.style.padding='5rem';this.style.textAlign='center';this.alt='MTIET Campus Photo'">
+                <img src="{% static 'images/gallery-campus3.jpg' %}" alt="MTIET Campus" onerror="this.style.background='linear-gradient(135deg,#1a237e,#283593)';this.style.padding='3rem';this.style.textAlign='center';this.style.color='#fff';this.style.fontSize='1.2rem';this.style.fontWeight='bold';this.src=''" style="width:100%;border-radius:16px;box-shadow:var(--shadow);min-height:200px;object-fit:cover">
             </div>
         </div>
     </div>
@@ -1093,32 +1124,68 @@
     </div>
 </section>
 
-<section class="section" style="padding-bottom:0">
+<section class="section" style="padding-bottom:0" id="toppers">
     <div class="container">
         <div class="section-title">
             <div class="line"></div>
-            <h2>Top <span>Students</span></h2>
-            <p>Meet our brilliant scholars who have excelled in academics and made MTIET proud.</p>
+            <h2>🎓 Top <span>Toppers</span></h2>
+            <p>Meet our brilliant scholars who excelled in academics and made MTIET proud.</p>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1.5rem">
+        <div class="topper-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem">
+            {% if top_students %}
             {% for s in top_students %}
-            <div style="background:#fff;border-radius:20px;padding:1.5rem;text-align:center;box-shadow:var(--shadow);transition:all 0.3s" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                <div style="width:80px;height:80px;border-radius:50%;margin:0 auto 0.8rem;overflow:hidden;border:3px solid var(--accent);position:relative">
-                    {% if s.image and s.image.url %}
-                    <img src="{{ s.image.url }}" alt="{{ s.name }}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
-                    {% endif %}
-                    <div style="width:100%;height:100%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.5rem">{{ s.name|first }}</div>
+            <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow);transition:all 0.3s;position:relative;overflow:hidden" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                {% if forloop.counter == 1 %}<div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#ffd700,#ffaa00)"></div>{% endif %}
+                {% if forloop.counter == 2 %}<div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#c0c0c0,#e0e0e0)"></div>{% endif %}
+                {% if forloop.counter == 3 %}<div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#cd7f32,#daa520)"></div>{% endif %}
+                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;overflow:hidden;border:3px solid var(--accent);position:relative">
+                    {% if s.image %}<img src="{{ s.image.url }}" alt="{{ s.name }}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">{% endif %}
+                    <div style="width:100%;height:100%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem">{{ s.name|first }}</div>
                 </div>
-                <h3 style="font-size:1rem;color:var(--primary);margin-bottom:0.3rem">{{ s.name }}</h3>
-                <p style="font-size:0.8rem;color:#888">{{ s.department.name }}</p>
-                <div style="margin-top:0.5rem;display:flex;justify-content:center;gap:0.5rem;flex-wrap:wrap">
-                    <span style="background:#e8eaf6;color:var(--primary);padding:0.2rem 0.7rem;border-radius:20px;font-size:0.75rem;font-weight:600">{{ s.marks }}%</span>
-                    <span style="background:#fff3e0;color:#e65100;padding:0.2rem 0.7rem;border-radius:20px;font-size:0.75rem;font-weight:600">Roll {{ s.roll }}</span>
+                <h4 style="font-size:0.9rem;color:var(--primary);margin:0">{{ s.name }}</h4>
+                <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">{{ s.department.name }}</p>
+                <div style="margin-top:0.4rem;display:flex;justify-content:center;gap:0.3rem;flex-wrap:wrap">
+                    <span class="badge" style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600">{{ s.marks }}%</span>
+                    {% if forloop.counter <= 3 %}<span class="badge" style="background:#fff3e0;color:#e65100;padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">🏆 Top {{ forloop.counter }}</span>{% endif %}
                 </div>
             </div>
-            {% empty %}
-            <p style="text-align:center;grid-column:1/-1;color:#888">No student records yet.</p>
             {% endfor %}
+            {% else %}
+            <!-- Static fallback toppers -->
+            <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden">
+                <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#ffd700,#ffaa00)"></div>
+                <img src="{% static 'images/mtiet-logo.png' %}" alt="Sai" style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;display:block;object-fit:cover;border:3px solid var(--accent);background:var(--primary)">
+                <h4 style="font-size:0.9rem;color:var(--primary);margin:0">K. Sai Kumar</h4>
+                <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">CSE</p>
+                <div style="margin-top:0.4rem"><span style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600">95.8%</span> <span style="background:#fff3e0;color:#e65100;padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">🏆 Top 1</span></div>
+            </div>
+            <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden">
+                <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#c0c0c0,#e0e0e0)"></div>
+                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem">P</div>
+                <h4 style="font-size:0.9rem;color:var(--primary);margin:0">P. Lakshmi Prasanna</h4>
+                <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">ECE</p>
+                <div style="margin-top:0.4rem"><span style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600">93.2%</span> <span style="background:#fff3e0;color:#e65100;padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">🏆 Top 2</span></div>
+            </div>
+            <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden">
+                <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#cd7f32,#daa520)"></div>
+                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem">R</div>
+                <h4 style="font-size:0.9rem;color:var(--primary);margin:0">R. Vamsi Krishna</h4>
+                <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">MECH</p>
+                <div style="margin-top:0.4rem"><span style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600">91.7%</span> <span style="background:#fff3e0;color:#e65100;padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">🏆 Top 3</span></div>
+            </div>
+            <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
+                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem">S</div>
+                <h4 style="font-size:0.9rem;color:var(--primary);margin:0">S. Naga Sirisha</h4>
+                <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">EEE</p>
+                <div style="margin-top:0.4rem"><span style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600">90.4%</span></div>
+            </div>
+            <div class="topper-card" style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
+                <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 0.6rem;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem">M</div>
+                <h4 style="font-size:0.9rem;color:var(--primary);margin:0">M. Sunil Reddy</h4>
+                <p style="font-size:0.72rem;color:#888;margin:0.2rem 0">CIVIL</p>
+                <div style="margin-top:0.4rem"><span style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.7rem;font-weight:600">89.1%</span></div>
+            </div>
+            {% endif %}
         </div>
     </div>
 </section>
@@ -1127,21 +1194,47 @@
     <div class="container">
         <div class="section-title reveal">
             <div class="line"></div>
-            <h2>Our <span>Faculty</span></h2>
+            <h2>👨‍🏫 Our <span>Faculty</span></h2>
             <p>Experienced educators and industry experts dedicated to shaping the next generation of engineers.</p>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2rem">
+        <div class="faculty-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem">
+            {% if dept_stats %}
             {% for d in dept_stats %}
-            <div class="dept-card" style="text-align:center" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                <div style="width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem;font-weight:bold">{{ d.name|first }}</div>
-                <h3>Prof. {{ d.name }}</h3>
-                <p style="color:var(--accent);font-weight:600;font-size:0.85rem">Head of Department</p>
-                <p style="font-size:0.82rem;color:#888;margin-top:0.5rem">Ph.D, {{ d.n }}+ Students Mentored</p>
-                <div style="display:flex;justify-content:center;gap:0.5rem;margin-top:0.8rem">
-                    <span style="background:#e8eaf6;padding:0.2rem 0.6rem;border-radius:6px;font-size:0.7rem;color:var(--primary)"><i class="fas fa-star"></i> {{ d.avg_marks|floatformat:0 }}%</span>
-                </div>
+            <div class="faculty-card" style="background:#fff;border-radius:14px;padding:1.2rem;text-align:center;box-shadow:var(--shadow);transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <div style="width:60px;height:60px;border-radius:50%;margin:0 auto 0.6rem;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;font-weight:bold">{{ d.name|first }}</div>
+                <h4 style="font-size:0.85rem;color:var(--primary);margin:0">Prof. {{ d.name }}</h4>
+                <p style="color:var(--accent);font-weight:600;font-size:0.72rem;margin:0.2rem 0">Head of Department</p>
+                <p style="font-size:0.72rem;color:#888">Ph.D, {{ d.n }}+ Students</p>
+                <div style="margin-top:0.4rem"><span style="background:#e8eaf6;padding:0.15rem 0.5rem;border-radius:6px;font-size:0.65rem;color:var(--primary)"><i class="fas fa-star"></i> {{ d.avg_marks|floatformat:0 }}%</span></div>
             </div>
             {% endfor %}
+            {% else %}
+            <!-- Static fallback faculty -->
+            <div class="faculty-card" style="background:#fff;border-radius:14px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
+                <img src="{% static 'images/admin-chair.png' %}" alt="Dr. Rajendra" style="width:60px;height:60px;border-radius:50%;margin:0 auto 0.6rem;display:block;object-fit:cover;border:2px solid var(--accent)">
+                <h4 style="font-size:0.85rem;color:var(--primary);margin:0">Dr. R. Rajendra</h4>
+                <p style="color:var(--accent);font-weight:600;font-size:0.72rem;margin:0.2rem 0">Professor - CSE</p>
+                <p style="font-size:0.72rem;color:#888">Ph.D, 15+ Years Exp</p>
+            </div>
+            <div class="faculty-card" style="background:#fff;border-radius:14px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
+                <img src="{% static 'images/admin-correspondent.png' %}" alt="Dr. Lakshmi" style="width:60px;height:60px;border-radius:50%;margin:0 auto 0.6rem;display:block;object-fit:cover;border:2px solid var(--accent)">
+                <h4 style="font-size:0.85rem;color:var(--primary);margin:0">Dr. M. Lakshmi</h4>
+                <p style="color:var(--accent);font-weight:600;font-size:0.72rem;margin:0.2rem 0">Professor - ECE</p>
+                <p style="font-size:0.72rem;color:#888">Ph.D, 12+ Years Exp</p>
+            </div>
+            <div class="faculty-card" style="background:#fff;border-radius:14px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
+                <img src="{% static 'images/admin-advisor.png' %}" alt="Dr. Reddy" style="width:60px;height:60px;border-radius:50%;margin:0 auto 0.6rem;display:block;object-fit:cover;border:2px solid var(--accent)">
+                <h4 style="font-size:0.85rem;color:var(--primary);margin:0">Dr. S. Reddy</h4>
+                <p style="color:var(--accent);font-weight:600;font-size:0.72rem;margin:0.2rem 0">Professor - MECH</p>
+                <p style="font-size:0.72rem;color:#888">Ph.D, 18+ Years Exp</p>
+            </div>
+            <div class="faculty-card" style="background:#fff;border-radius:14px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
+                <img src="{% static 'images/admin-principal.png' %}" alt="Dr. Kanth" style="width:60px;height:60px;border-radius:50%;margin:0 auto 0.6rem;display:block;object-fit:cover;border:2px solid var(--accent)">
+                <h4 style="font-size:0.85rem;color:var(--primary);margin:0">Dr. M. Kanth</h4>
+                <p style="color:var(--accent);font-weight:600;font-size:0.72rem;margin:0.2rem 0">Professor - EEE</p>
+                <p style="font-size:0.72rem;color:#888">Ph.D, 20+ Years Exp</p>
+            </div>
+            {% endif %}
         </div>
     </div>
 </section>
@@ -1189,32 +1282,50 @@
     </div>
 </section>
 
-<section class="section section-alt" style="padding-bottom:0">
+<section class="section section-alt" style="padding-bottom:0" id="testimonials">
     <div class="container">
         <div class="section-title">
             <div class="line"></div>
-            <h2>What Our <span>Students Say</span></h2>
+            <h2>💬 What Our <span>Students Say</span></h2>
             <p>Hear from our students about their journey at MTIET.</p>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem">
             {% if testimonials %}
             {% for t in testimonials %}
-            <div style="background:#fff;border-radius:20px;padding:2rem;box-shadow:var(--shadow);position:relative;border-left:4px solid var(--accent);transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                <div style="color:var(--accent);font-size:3rem;opacity:0.2;position:absolute;top:10px;right:20px"><i class="fas fa-quote-right"></i></div>
-                <p style="font-style:italic;color:#555;line-height:1.7;font-size:0.95rem">&ldquo;{{ t.quote }}&rdquo;</p>
-                <div style="display:flex;align-items:center;gap:1rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #eee">
-                    <div style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.2rem;flex-shrink:0">{{ t.name|first }}</div>
-                    <div>
-                        <strong style="color:var(--primary);font-size:0.95rem">{{ t.name }}</strong>
-                        <p style="color:#888;font-size:0.8rem">{{ t.dept }} &middot; {{ t.marks }}%</p>
-                    </div>
+            <div style="background:#fff;border-radius:14px;padding:1.2rem;box-shadow:var(--shadow);position:relative;border-left:3px solid var(--accent);transition:all 0.3s" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <div style="color:var(--accent);font-size:2rem;opacity:0.15;position:absolute;top:5px;right:12px"><i class="fas fa-quote-right"></i></div>
+                <p style="font-style:italic;color:#555;line-height:1.6;font-size:0.85rem">&ldquo;{{ t.quote|truncatechars:120 }}&rdquo;</p>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid #eee">
+                    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.9rem;flex-shrink:0">{{ t.name|first }}</div>
+                    <div><strong style="color:var(--primary);font-size:0.8rem">{{ t.name }}</strong><p style="color:#888;font-size:0.7rem;margin:0">{{ t.dept }} &middot; {{ t.marks }}%</p></div>
                 </div>
             </div>
             {% endfor %}
             {% else %}
-            <div style="grid-column:1/-1;text-align:center;padding:2rem;color:#888;background:#fff;border-radius:20px;box-shadow:var(--shadow)">
-                <i class="fas fa-comment-dots" style="font-size:3rem;color:var(--accent);margin-bottom:1rem"></i>
-                <p>No testimonials yet. Student bios will appear here once added.</p>
+            <!-- Static fallback testimonials -->
+            <div style="background:#fff;border-radius:14px;padding:1.2rem;box-shadow:var(--shadow);border-left:3px solid var(--accent);position:relative">
+                <div style="color:var(--accent);font-size:2rem;opacity:0.15;position:absolute;top:5px;right:12px"><i class="fas fa-quote-right"></i></div>
+                <p style="font-style:italic;color:#555;font-size:0.85rem">&ldquo;MTIET provided me with the perfect platform to launch my career. The faculty guidance and lab facilities are world-class.&rdquo;</p>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid #eee">
+                    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.9rem;flex-shrink:0">S</div>
+                    <div><strong style="color:var(--primary);font-size:0.8rem">K. Sai Kumar</strong><p style="color:#888;font-size:0.7rem;margin:0">CSE &middot; 95.8%</p></div>
+                </div>
+            </div>
+            <div style="background:#fff;border-radius:14px;padding:1.2rem;box-shadow:var(--shadow);border-left:3px solid var(--accent);position:relative">
+                <div style="color:var(--accent);font-size:2rem;opacity:0.15;position:absolute;top:5px;right:12px"><i class="fas fa-quote-right"></i></div>
+                <p style="font-style:italic;color:#555;font-size:0.85rem">&ldquo;The placement training at MTIET is exceptional. I got placed at Microsoft thanks to the dedicated placement cell.&rdquo;</p>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid #eee">
+                    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.9rem;flex-shrink:0">P</div>
+                    <div><strong style="color:var(--primary);font-size:0.8rem">P. Lakshmi Prasanna</strong><p style="color:#888;font-size:0.7rem;margin:0">ECE &middot; 93.2%</p></div>
+                </div>
+            </div>
+            <div style="background:#fff;border-radius:14px;padding:1.2rem;box-shadow:var(--shadow);border-left:3px solid var(--accent);position:relative">
+                <div style="color:var(--accent);font-size:2rem;opacity:0.15;position:absolute;top:5px;right:12px"><i class="fas fa-quote-right"></i></div>
+                <p style="font-style:italic;color:#555;font-size:0.85rem">&ldquo;Excellent infrastructure and experienced faculty. The labs and library are always accessible. Proud to be an MTIETian!&rdquo;</p>
+                <div style="display:flex;align-items:center;gap:0.8rem;margin-top:0.8rem;padding-top:0.6rem;border-top:1px solid #eee">
+                    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.9rem;flex-shrink:0">R</div>
+                    <div><strong style="color:var(--primary);font-size:0.8rem">R. Vamsi Krishna</strong><p style="color:#888;font-size:0.7rem;margin:0">MECH &middot; 91.7%</p></div>
+                </div>
             </div>
             {% endif %}
         </div>
@@ -1230,76 +1341,121 @@
         </div>
         <div class="gallery-grid">
             <div class="gallery-item">
-                <img src="{% static 'images/banner.svg' %}" alt="Campus" onerror="this.style.background='#1a237e';this.style.display='flex';this.style.alignItems='center';this.style.justifyContent='center'">
-                <div class="overlay"><h4>Main Campus</h4><p>Sprawling green campus</p></div>
+                <img src="{% static 'images/gallery-campus1.jpg' %}" alt="Classroom" onerror="this.style.background='#1a237e';this.style.display='block';this.style.height='100%';this.style.width='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>Smart Classrooms</h4><p>Modern teaching aids & comfort</p></div>
             </div>
             <div class="gallery-item">
-                <img src="{% static 'images/logo.svg' %}" alt="Library" onerror="this.style.background='#283593';">
-                <div class="overlay"><h4>Central Library</h4><p>69,000+ books & digital resources</p></div>
+                <img src="{% static 'images/gallery-campus2.jpg' %}" alt="Classroom" onerror="this.style.background='#283593';this.style.display='block';this.style.height='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>Spacious Classrooms</h4><p>Conducive learning environment</p></div>
             </div>
             <div class="gallery-item">
-                <img src="{% static 'images/student1.jpg' %}" alt="Lab" onerror="this.style.background='#3949ab';">
-                <div class="overlay"><h4>Smart Labs</h4><p>State-of-the-art equipment</p></div>
+                <img src="{% static 'images/gallery-campus3.jpg' %}" alt="Classroom" onerror="this.style.background='#3949ab';this.style.display='block';this.style.height='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>Well-Equipped Rooms</h4><p>LCD projectors & modern infrastructure</p></div>
             </div>
             <div class="gallery-item">
-                <img src="{% static 'images/student2.jpg' %}" alt="Sports" onerror="this.style.background='#1a237e';">
-                <div class="overlay"><h4>Sports Complex</h4><p>10-acre multi-sport arena</p></div>
+                <img src="{% static 'images/gallery-campus4.jpg' %}" alt="Library" onerror="this.style.background='#1a237e';this.style.display='block';this.style.height='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>Central Library</h4><p>30,000+ books & digital resources</p></div>
             </div>
             <div class="gallery-item">
-                <img src="{% static 'images/student3.jpg' %}" alt="Library" onerror="this.style.background='#283593';">
-                <div class="overlay"><h4>Digital Library</h4><p>24/7 access to online resources</p></div>
+                <img src="{% static 'images/gallery-campus5.jpg' %}" alt="Library" onerror="this.style.background='#283593';this.style.display='block';this.style.height='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>Digital Library</h4><p>24/7 access to e-journals & e-books</p></div>
             </div>
             <div class="gallery-item">
-                <img src="{% static 'images/student4.jpg' %}" alt="Hostel" onerror="this.style.background='#3949ab';">
-                <div class="overlay"><h4>Hostel Life</h4><p>Comfortable accommodation for 1,750</p></div>
+                <img src="{% static 'images/gallery-campus6.jpg' %}" alt="Library Reading" onerror="this.style.background='#3949ab';this.style.display='block';this.style.height='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>Reading Hall</h4><p>Peaceful study environment</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/gallery-campus7.jpg' %}" alt="Computer Lab" onerror="this.style.background='#1a237e';this.style.display='block';this.style.height='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>Computer Lab</h4><p>State-of-the-art computing facilities</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/gallery-campus8.jpg' %}" alt="CSE Lab" onerror="this.style.background='#283593';this.style.display='block';this.style.height='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>CSE Laboratory</h4><p>Advanced lab with latest software</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/gallery-campus9.jpg' %}" alt="Programming Lab" onerror="this.style.background='#3949ab';this.style.display='block';this.style.height='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>Programming Hub</h4><p>High-performance computing systems</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/gallery-event1.jpg' %}" alt="Tech Fest" onerror="this.style.background='#1a237e';this.style.display='block';this.style.height='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>JNTUA Tech Fest</h4><p>Students shine at district-level event</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/gallery-event2.jpg' %}" alt="College Event" onerror="this.style.background='#283593';this.style.display='block';this.style.height='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>Campus Event</h4><p>Vibrant student activities & celebrations</p></div>
+            </div>
+            <div class="gallery-item">
+                <img src="{% static 'images/gallery-event3.jpg' %}" alt="Award Ceremony" onerror="this.style.background='#3949ab';this.style.display='block';this.style.height='100%'" style="min-height:180px;object-fit:cover">
+                <div class="overlay"><h4>Award Ceremony</h4><p>Recognizing academic excellence</p></div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section" style="padding-bottom:0">
+<section class="section" style="padding-bottom:0" id="placements">
     <div class="container">
         <div class="section-title">
             <div class="line"></div>
-            <h2>Our <span>Recruiters</span></h2>
-            <p>Top companies that trust MTIET talent and actively recruit from our campus.</p>
+            <h2>💼 Placements & <span>Recruiters</span></h2>
+            <p>Top companies that trust MTIET talent — 895+ offers in 2024-25.</p>
         </div>
-        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;align-items:center;padding:1rem 0">
-            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                <i class="fab fa-google" style="font-size:2rem;color:#4285F4"></i>
-                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Google</p>
+        <!-- Placement stats row -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.8rem;margin-bottom:1.5rem">
+            <div style="background:linear-gradient(135deg,#1a237e,#283593);color:#fff;border-radius:12px;padding:1rem;text-align:center">
+                <div style="font-size:1.5rem;font-weight:800">895+</div>
+                <div style="font-size:0.7rem;opacity:0.85">Offers Recieved</div>
             </div>
-            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                <i class="fab fa-microsoft" style="font-size:2rem;color:#00a4ef"></i>
-                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Microsoft</p>
+            <div style="background:linear-gradient(135deg,#e65100,#ff9800);color:#fff;border-radius:12px;padding:1rem;text-align:center">
+                <div style="font-size:1.5rem;font-weight:800">48 LPA</div>
+                <div style="font-size:0.7rem;opacity:0.85">Highest Package</div>
             </div>
-            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                <i class="fab fa-amazon" style="font-size:2rem;color:#ff9900"></i>
-                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Amazon</p>
+            <div style="background:linear-gradient(135deg,#00695c,#26a69a);color:#fff;border-radius:12px;padding:1rem;text-align:center">
+                <div style="font-size:1.5rem;font-weight:800">92%</div>
+                <div style="font-size:0.7rem;opacity:0.85">Placement Rate</div>
             </div>
-            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                <i class="fas fa-chart-line" style="font-size:2rem;color:#6c63ff"></i>
-                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Infosys</p>
+            <div style="background:linear-gradient(135deg,#4a148c,#7b1fa2);color:#fff;border-radius:12px;padding:1rem;text-align:center">
+                <div style="font-size:1.5rem;font-weight:800">50+</div>
+                <div style="font-size:0.7rem;opacity:0.85">Companies Visited</div>
             </div>
-            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                <i class="fas fa-bolt" style="font-size:2rem;color:#00838f"></i>
-                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">TCS</p>
-            </div>
-            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                <i class="fas fa-globe" style="font-size:2rem;color:#1565c0"></i>
-                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Wipro</p>
-            </div>
-            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                <i class="fas fa-heartbeat" style="font-size:2rem;color:#4caf50"></i>
-                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">HCL</p>
-            </div>
-            <div style="background:#fff;padding:1.5rem 2.5rem;border-radius:16px;box-shadow:var(--shadow);text-align:center;min-width:140px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
-                <i class="fas fa-space-shuttle" style="font-size:2rem;color:#7b1fa2"></i>
-                <p style="font-weight:600;margin-top:0.5rem;font-size:0.85rem">Accenture</p>
+            <div style="background:linear-gradient(135deg,#b71c1c,#e53935);color:#fff;border-radius:12px;padding:1rem;text-align:center">
+                <div style="font-size:1.5rem;font-weight:800">150+</div>
+                <div style="font-size:0.7rem;opacity:0.85">Dream Offers</div>
             </div>
         </div>
-        <div style="text-align:center;margin-top:2rem">
-            <p style="color:#888;font-size:0.95rem"><i class="fas fa-briefcase" style="color:var(--accent);margin-right:0.5rem"></i>895+ offers received by 2024 graduates &middot; Highest Package: 48 LPA</p>
+        <!-- Recruiters logos -->
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.8rem;align-items:center">
+            <div style="background:#fff;padding:0.8rem 1.5rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);text-align:center;min-width:90px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--shadow)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)'">
+                <i class="fab fa-google" style="font-size:1.3rem;color:#4285F4"></i>
+                <p style="font-weight:600;margin:0.2rem 0 0;font-size:0.7rem">Google</p>
+            </div>
+            <div style="background:#fff;padding:0.8rem 1.5rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);text-align:center;min-width:90px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--shadow)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)'">
+                <i class="fab fa-microsoft" style="font-size:1.3rem;color:#00a4ef"></i>
+                <p style="font-weight:600;margin:0.2rem 0 0;font-size:0.7rem">Microsoft</p>
+            </div>
+            <div style="background:#fff;padding:0.8rem 1.5rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);text-align:center;min-width:90px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--shadow)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)'">
+                <i class="fab fa-amazon" style="font-size:1.3rem;color:#ff9900"></i>
+                <p style="font-weight:600;margin:0.2rem 0 0;font-size:0.7rem">Amazon</p>
+            </div>
+            <div style="background:#fff;padding:0.8rem 1.5rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);text-align:center;min-width:90px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--shadow)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)'">
+                <i class="fas fa-chart-line" style="font-size:1.3rem;color:#6c63ff"></i>
+                <p style="font-weight:600;margin:0.2rem 0 0;font-size:0.7rem">Infosys</p>
+            </div>
+            <div style="background:#fff;padding:0.8rem 1.5rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);text-align:center;min-width:90px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--shadow)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)'">
+                <i class="fas fa-bolt" style="font-size:1.3rem;color:#00838f"></i>
+                <p style="font-weight:600;margin:0.2rem 0 0;font-size:0.7rem">TCS</p>
+            </div>
+            <div style="background:#fff;padding:0.8rem 1.5rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);text-align:center;min-width:90px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--shadow)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)'">
+                <i class="fas fa-globe" style="font-size:1.3rem;color:#1565c0"></i>
+                <p style="font-weight:600;margin:0.2rem 0 0;font-size:0.7rem">Wipro</p>
+            </div>
+            <div style="background:#fff;padding:0.8rem 1.5rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);text-align:center;min-width:90px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--shadow)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)'">
+                <i class="fas fa-heartbeat" style="font-size:1.3rem;color:#4caf50"></i>
+                <p style="font-weight:600;margin:0.2rem 0 0;font-size:0.7rem">HCL</p>
+            </div>
+            <div style="background:#fff;padding:0.8rem 1.5rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);text-align:center;min-width:90px;transition:all 0.3s" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='var(--shadow)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)'">
+                <i class="fas fa-space-shuttle" style="font-size:1.3rem;color:#7b1fa2"></i>
+                <p style="font-weight:600;margin:0.2rem 0 0;font-size:0.7rem">Accenture</p>
+            </div>
         </div>
     </div>
 </section>
@@ -1339,20 +1495,20 @@
         </div>
         <div class="presentation-carousel" id="carousel">
             <div class="slides" id="slides">
-                <div class="slide">
-                    <img src="{% static 'images/banner.svg' %}" alt="Welcome to MTIET" onerror="this.parentElement.innerHTML='<div style=\'background:linear-gradient(135deg,#1a237e,#3949ab);height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;padding:4rem;text-align:center\'><i class=\'fas fa-graduation-cap\' style=\'font-size:4rem;margin-bottom:1rem;color:#ff9800\'></i><h2 style=\'font-size:2rem\'>Welcome to MTIET</h2><p style=\'margin-top:0.5rem;opacity:0.8\'>Excellence in Engineering Education</p></div>'">
-                    <div class="caption"><h3>Welcome to MTIET</h3><p>Excellence in Engineering Education Since 1998</p></div>
+                <div class="slide" style="background:linear-gradient(135deg,#1a237e,#3949ab)">
+                    <img src="{% static 'images/mtiet-hero.jpg' %}" alt="Welcome to MTIET" onerror="this.remove()" style="width:100%;height:100%;object-fit:cover">
+                    <div class="caption"><h3>Welcome to MTIET</h3><p>Excellence in Engineering Education Since 2010</p></div>
                 </div>
-                <div class="slide">
-                    <img src="{% static 'images/logo.svg' %}" alt="Infrastructure" onerror="this.parentElement.innerHTML='<div style=\'background:linear-gradient(135deg,#283593,#5c6bc0);height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;padding:4rem;text-align:center\'><i class=\'fas fa-building\' style=\'font-size:4rem;margin-bottom:1rem;color:#ff9800\'></i><h2 style=\'font-size:2rem\'>World-Class Infrastructure</h2><p style=\'margin-top:0.5rem;opacity:0.8\'>120-Acre Smart Campus with Modern Facilities</p></div>'">
+                <div class="slide" style="background:linear-gradient(135deg,#283593,#5c6bc0)">
+                    <img src="{% static 'images/gallery-campus2.jpg' %}" alt="Infrastructure" onerror="this.remove()" style="width:100%;height:100%;object-fit:cover">
                     <div class="caption"><h3>World-Class Infrastructure</h3><p>120-Acre Smart Campus with Modern Facilities</p></div>
                 </div>
-                <div class="slide">
-                    <img src="{% static 'images/student1.jpg' %}" alt="Placements" onerror="this.parentElement.innerHTML='<div style=\'background:linear-gradient(135deg,#e65100,#ff9800);height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;padding:4rem;text-align:center\'><i class=\'fas fa-briefcase\' style=\'font-size:4rem;margin-bottom:1rem\'></i><h2 style=\'font-size:2rem\'>Top Placements</h2><p style=\'margin-top:0.5rem;opacity:0.8\'>Highest Package: 48 LPA | 90% Placement Rate</p></div>'">
+                <div class="slide" style="background:linear-gradient(135deg,#e65100,#ff9800)">
+                    <img src="{% static 'images/gallery-event2.jpg' %}" alt="Placements" onerror="this.remove()" style="width:100%;height:100%;object-fit:cover">
                     <div class="caption"><h3>Top Placements</h3><p>Highest Package: 48 LPA | 90% Placement Rate</p></div>
                 </div>
-                <div class="slide">
-                    <img src="{% static 'images/student2.jpg' %}" alt="AI Hub" onerror="this.parentElement.innerHTML='<div style=\'background:linear-gradient(135deg,#00695c,#26a69a);height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;padding:4rem;text-align:center\'><i class=\'fas fa-robot\' style=\'font-size:4rem;margin-bottom:1rem;color:#ff9800\'></i><h2 style=\'font-size:2rem\'>AI Hub</h2><p style=\'margin-top:0.5rem;opacity:0.8\'>Your Launchpad to AI Leadership</p></div>'">
+                <div class="slide" style="background:linear-gradient(135deg,#00695c,#26a69a)">
+                    <img src="{% static 'images/gallery-campus7.jpg' %}" alt="AI Hub" onerror="this.remove()" style="width:100%;height:100%;object-fit:cover">
                     <div class="caption"><h3>AI Hub</h3><p>Your Launchpad to AI Leadership</p></div>
                 </div>
             </div>
@@ -1392,7 +1548,7 @@
     <div class="container">
         <div class="footer-grid">
             <div class="footer-brand">
-                <img src="{% static 'images/logo.svg' %}" alt="MTI Logo">
+                <img src="{% static 'images/mtiet-logo.png' %}" alt="MTI Logo">
                 <h3>MTI - Mother Theresa Institutions</h3>
                 <p style="margin-top:0.8rem">Empowering minds with world-class engineering education, innovation, and industry excellence since 1998.</p>
                 <div class="social-links">
