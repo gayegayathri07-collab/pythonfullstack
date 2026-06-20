@@ -211,6 +211,35 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 4px 20px rgba(245,124,0,0.35); }
+            50% { box-shadow: 0 4px 40px rgba(245,124,0,0.6), 0 0 60px rgba(245,124,0,0.15); }
+        }
+        @keyframes shimmer {
+            0% { background-position:-200% 0; }
+            100% { background-position:200% 0; }
+        }
+        @keyframes fadeInUp {
+            from { opacity:0; transform:translateY(20px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+        .pulse-btn { animation:pulse-glow 2s ease-in-out infinite; }
+        .shimmer-card::after {
+            content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+            background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.3) 50%,transparent 100%);
+            background-size:200% 100%; animation:shimmer 2.5s infinite; pointer-events:none; opacity:0;
+            transition:opacity 0.3s;
+        }
+        .shimmer-card:hover::after { opacity:1; }
+        .card-stagger > * { animation:fadeInUp 0.5s ease forwards; opacity:0; }
+        .card-stagger > *:nth-child(1) { animation-delay:0.05s; }
+        .card-stagger > *:nth-child(2) { animation-delay:0.1s; }
+        .card-stagger > *:nth-child(3) { animation-delay:0.15s; }
+        .card-stagger > *:nth-child(4) { animation-delay:0.2s; }
+        .card-stagger > *:nth-child(5) { animation-delay:0.25s; }
+        .card-stagger > *:nth-child(6) { animation-delay:0.3s; }
+        @keyframes rippleAnim { to { transform:scale(4); opacity:0; } }
+        .section-entrance { animation:fadeInUp 0.6s ease forwards; }
 
         .section {
             padding: 1.5rem 0;
@@ -722,7 +751,7 @@
             <h1 style="font-size:1.5rem;margin-bottom:0.3rem">Shape Your <span style="color:var(--accent)">Future</span> Here</h1>
             <p style="color:rgba(255,255,255,0.8);font-size:0.85rem;line-height:1.5;margin-bottom:0.8rem"><span id="typewriter"></span><span class="typewriter-cursor"></span></p>
             <div class="hero-buttons" style="gap:0.5rem">
-                <a href="{% url 'students:dashboard' %}" class="btn" style="background:var(--accent);color:#fff;padding:0.5rem 1.2rem;font-size:0.8rem;border-radius:50px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem"><i class="fas fa-graduation-cap"></i> Apply Now</a>
+                <a href="{% url 'students:dashboard' %}" class="btn pulse-btn" style="background:var(--accent);color:#fff;padding:0.5rem 1.2rem;font-size:0.8rem;border-radius:50px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem"><i class="fas fa-graduation-cap"></i> Apply Now</a>
                 <a href="#courses" class="btn" style="background:transparent;color:#fff;padding:0.5rem 1.2rem;font-size:0.8rem;border-radius:50px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;border:1.5px solid rgba(255,255,255,0.3)"><i class="fas fa-book"></i> Courses</a>
                 <a href="#contact" class="btn" style="background:transparent;color:#fff;padding:0.5rem 1.2rem;font-size:0.8rem;border-radius:50px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;border:1.5px solid rgba(255,255,255,0.3)"><i class="fas fa-map-marker-alt"></i> Visit</a>
             </div>
@@ -780,7 +809,7 @@
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0.6rem">
             <a href="#courses" style="text-decoration:none;display:block">
-                <div class="course-card tilt-card" style="padding:0;overflow:hidden;text-align:center;border-radius:10px" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <div class="course-card tilt-card shimmer-card" style="padding:0;overflow:hidden;text-align:center;border-radius:10px" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
                     <img src="{% static 'images/mtiet-engg.jpg' %}" alt="Engineering" style="width:100%;display:block;min-height:70px;object-fit:cover" onerror="this.alt='MTIET Engg';this.style.background='linear-gradient(135deg,#1a237e,#283593)';this.style.padding='1.5rem';this.style.color='#fff';this.style.fontWeight='bold';this.style.textAlign='center';this.src=''">
                     <div style="padding:0.6rem">
                         <span style="background:#e8eaf6;color:var(--primary);padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">AICTE Approved</span>
@@ -790,7 +819,7 @@
                 </div>
             </a>
             <a href="#courses" style="text-decoration:none;display:block">
-                <div class="course-card tilt-card" style="padding:0;overflow:hidden;text-align:center;border-radius:10px" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <div class="course-card tilt-card shimmer-card" style="padding:0;overflow:hidden;text-align:center;border-radius:10px" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
                     <img src="{% static 'images/mtiet-mba.jpg' %}" alt="MBA" style="width:100%;display:block;min-height:70px;object-fit:cover" onerror="this.alt='MTIET MBA';this.style.background='linear-gradient(135deg,#4a148c,#7b1fa2)';this.style.padding='1.5rem';this.style.color='#fff';this.style.fontWeight='bold';this.style.textAlign='center';this.src=''">
                     <div style="padding:0.6rem">
                         <span style="background:#f3e5f5;color:#4a148c;padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">NBA Accredited</span>
@@ -800,7 +829,7 @@
                 </div>
             </a>
             <a href="#courses" style="text-decoration:none;display:block">
-                <div class="course-card tilt-card" style="padding:0;overflow:hidden;text-align:center;border-radius:10px" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <div class="course-card tilt-card shimmer-card" style="padding:0;overflow:hidden;text-align:center;border-radius:10px" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
                     <img src="{% static 'images/mtiet-degree.jpg' %}" alt="Degree" style="width:100%;display:block;min-height:70px;object-fit:cover" onerror="this.alt='MTIET Degree';this.style.background='linear-gradient(135deg,#00695c,#26a69a)';this.style.padding='1.5rem';this.style.color='#fff';this.style.fontWeight='bold';this.style.textAlign='center';this.src=''">
                     <div style="padding:0.6rem">
                         <span style="background:#e0f2f1;color:#00695c;padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">UGC Affiliated</span>
@@ -810,7 +839,7 @@
                 </div>
             </a>
             <a href="#courses" style="text-decoration:none;display:block">
-                <div class="course-card tilt-card" style="padding:0;overflow:hidden;text-align:center;border-radius:10px" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <div class="course-card tilt-card shimmer-card" style="padding:0;overflow:hidden;text-align:center;border-radius:10px" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
                     <img src="{% static 'images/mtiet-junior.jpg' %}" alt="Junior College" style="width:100%;display:block;min-height:70px;object-fit:cover" onerror="this.alt='MTIET Junior';this.style.background='linear-gradient(135deg,#e65100,#ff9800)';this.style.padding='1.5rem';this.style.color='#fff';this.style.fontWeight='bold';this.style.textAlign='center';this.src=''">
                     <div style="padding:0.6rem">
                         <span style="background:#fff3e0;color:#e65100;padding:0.15rem 0.6rem;border-radius:12px;font-size:0.65rem;font-weight:600">BIE Approved</span>
@@ -1025,7 +1054,7 @@
         </div>
         <div class="tab-content" id="tab-engg">
             <div class="courses-grid">
-                <div class="course-card tilt-card">
+                <div class="course-card tilt-card shimmer-card">
                     <div class="icon"><i class="fas fa-laptop-code"></i></div>
                     <h3>B.Tech CSE</h3>
                     <p>Build cutting-edge software applications, master full-stack development, and become a leader in the tech industry.</p>
@@ -1150,7 +1179,7 @@
         .topper-card .ring-wrap .face img,.topper-card .ring-wrap .face svg{width:100%;height:100%;object-fit:cover}
         .topper-card .medal{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;box-shadow:0 2px 8px rgba(0,0,0,0.15);z-index:2}
         </style>
-        <div class="topper-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:0.8rem">
+        <div class="topper-grid card-stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:0.8rem">
             {% if top_students %}
             {% for s in top_students %}
             {% with last=s.name|slice:"-1:" %}
@@ -1637,6 +1666,10 @@
     <i class="fab fa-whatsapp"></i>
 </a>
 
+<div id="admitBadge" style="position:fixed;bottom:20px;left:20px;z-index:999;background:linear-gradient(135deg,#e65100,#ff9800);color:#fff;padding:0.4rem 1rem;border-radius:50px;font-size:0.72rem;font-weight:600;box-shadow:0 4px 20px rgba(230,81,0,0.4);display:flex;align-items:center;gap:0.4rem;cursor:pointer;transition:all 0.3s;animation:pulse-glow 2s ease-in-out infinite;text-decoration:none" onclick="document.getElementById('home')?.scrollIntoView({behavior:'smooth'})">
+    <i class="fas fa-graduation-cap"></i> Admissions Open 2026-27
+</div>
+
 <script>
 function toggleMenu() {
     document.getElementById('navLinks').classList.toggle('open');
@@ -1818,6 +1851,59 @@ function startCountdown(targetDate) {
 if (document.getElementById('countdown-days')) {
     startCountdown(new Date('2026-08-15T00:00:00').getTime());
 }
+
+// Auto-rotate testimonials highlight
+(function(){
+    var tCards = document.querySelectorAll('.testimonial-card');
+    if(tCards.length<2) return;
+    var idx = 0;
+    function showTestimonial(i){
+        tCards.forEach(function(c,j){
+            c.style.opacity = j===i ? '1' : '0.4';
+            c.style.transform = j===i ? 'scale(1.02)' : 'scale(0.97)';
+            c.style.transition = 'all 0.5s';
+        });
+    }
+    showTestimonial(0);
+    setInterval(function(){
+        idx = (idx+1) % tCards.length;
+        showTestimonial(idx);
+    }, 3000);
+})();
+
+// Ripple effect on buttons
+(function(){
+    document.querySelectorAll('.btn, .tab-btn, .dept-card').forEach(function(el){
+        el.addEventListener('click', function(e){
+            var rip = document.createElement('span');
+            rip.style.cssText = 'position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);transform:scale(0);animation:rippleAnim 0.6s ease-out;pointer-events:none;width:100px;height:100px;margin-top:-50px;margin-left:-50px';
+            var rect = this.getBoundingClientRect();
+            rip.style.left = (e.clientX - rect.left) + 'px';
+            rip.style.top = (e.clientY - rect.top) + 'px';
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(rip);
+            setTimeout(function(){ rip.remove(); }, 600);
+        });
+    });
+})();
+
+// Intersection Observer for staggered cards
+(function(){
+    var cards = document.querySelectorAll('.card-stagger > *');
+    if(!cards.length) return;
+    var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting) e.target.style.opacity = '1';
+        });
+    }, {threshold:0.1});
+    cards.forEach(function(c){ obs.observe(c); });
+    // trigger visible ones
+    cards.forEach(function(c){
+        var rect = c.getBoundingClientRect();
+        if(rect.top < window.innerHeight) c.style.opacity = '1';
+    });
+})();
 </script>
 </body>
 </html>
