@@ -20,7 +20,7 @@
             --shadow-hover: 0 16px 48px rgba(0,0,0,0.2);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
         body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: var(--text-dark); overflow-x: hidden; }
 
         .top-bar {
@@ -562,6 +562,67 @@
             .hero-content h1 { font-size: 1.8rem; }
             .top-bar .container { flex-direction: column; gap: 0.3rem; }
         }
+
+        /* Scroll reveal animation */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+        .reveal-scale { opacity: 0; transform: scale(0.9); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+        /* Particles */
+        .particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 0; }
+        .particle { position: absolute; width: 6px; height: 6px; background: rgba(255,255,255,0.15); border-radius: 50%; animation: float-particle linear infinite; }
+        @keyframes float-particle { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100px) rotate(720deg); opacity: 0; } }
+
+        /* Typewriter cursor */
+        .typewriter-cursor { display: inline-block; width: 3px; height: 1.1em; background: var(--accent); margin-left: 4px; animation: blink 0.8s step-end infinite; vertical-align: text-bottom; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* 3D tilt card */
+        .tilt-card { transition: transform 0.1s ease; transform-style: preserve-3d; will-change: transform; }
+
+        /* Gradient text */
+        .gradient-text { background: linear-gradient(135deg, var(--accent), #ff6f00, var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradient-shift 3s ease infinite; }
+        @keyframes gradient-shift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+        /* Floating shapes */
+        .floating-shape { position: absolute; border-radius: 50%; opacity: 0.03; pointer-events: none; }
+        .floating-shape:nth-child(1) { width: 300px; height: 300px; background: #fff; top: -50px; left: -80px; animation: float-shape 8s ease-in-out infinite; }
+        .floating-shape:nth-child(2) { width: 200px; height: 200px; background: var(--accent); bottom: 10%; right: 10%; animation: float-shape 6s ease-in-out infinite reverse; }
+        .floating-shape:nth-child(3) { width: 150px; height: 150px; background: #fff; top: 40%; left: 5%; animation: float-shape 10s ease-in-out infinite 2s; }
+        @keyframes float-shape { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(15deg); } }
+
+        /* Progress bar */
+        .progress-bar { width: 100%; height: 10px; background: #e0e0e0; border-radius: 10px; overflow: hidden; margin-top: 0.5rem; }
+        .progress-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); width: 0; }
+
+        /* News ticker */
+        .news-ticker { overflow: hidden; background: var(--primary); color: #fff; padding: 0.6rem 0; position: relative; }
+        .news-ticker-content { display: flex; animation: ticker 20s linear infinite; white-space: nowrap; }
+        .news-ticker-content span { padding: 0 2rem; font-size: 0.9rem; }
+        .news-ticker-content span i { color: var(--accent); margin-right: 0.5rem; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* Timeline */
+        .timeline { position: relative; padding: 2rem 0; }
+        .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, var(--primary), var(--accent)); transform: translateX(-50%); }
+        .timeline-item { display: flex; justify-content: flex-end; padding: 1rem 0; width: 50%; }
+        .timeline-item:nth-child(even) { align-self: flex-end; justify-content: flex-start; margin-left: 50%; }
+        .timeline-item .content { background: #fff; padding: 1.2rem; border-radius: 12px; box-shadow: var(--shadow); max-width: 400px; position: relative; }
+        .timeline-item .content::before { content: ''; position: absolute; top: 20px; width: 15px; height: 15px; background: var(--accent); border-radius: 50%; }
+        .timeline-item:nth-child(odd) .content::before { right: -38px; }
+        .timeline-item:nth-child(even) .content::before { left: -38px; }
+        .timeline-item .content h4 { color: var(--primary); font-size: 0.95rem; }
+        .timeline-item .content p { color: #666; font-size: 0.85rem; margin-top: 0.3rem; }
+        @media (max-width: 768px) {
+          .timeline::before { left: 20px; }
+          .timeline-item, .timeline-item:nth-child(even) { width: 100%; margin-left: 0; padding-left: 50px; justify-content: flex-start; }
+          .timeline-item:nth-child(odd) .content::before, .timeline-item:nth-child(even) .content::before { left: -33px; }
+        }
     </style>
 </head>
 <body>
@@ -602,7 +663,20 @@
     </div>
 </nav>
 
+<div class="news-ticker">
+    <div class="news-ticker-content">
+        <span><i class="fas fa-star"></i> NAAC 'A' Grade Accredited</span>
+        <span><i class="fas fa-trophy"></i> JNTUH Gold Medalist - Two Gold Medals</span>
+        <span><i class="fas fa-briefcase"></i> Highest Placement: 48 LPA</span>
+        <span><i class="fas fa-graduation-cap"></i> Admissions Open for 2026-27</span>
+        <span><i class="fas fa-flask"></i> New AI & Data Science Lab Inaugurated</span>
+        <span><i class="fas fa-star"></i> NAAC 'A' Grade Accredited</span>
+        <span><i class="fas fa-trophy"></i> JNTUH Gold Medalist - Two Gold Medals</span>
+    </div>
+</div>
+
 <section class="hero" id="home">
+    <div class="particles"></div>
     <div class="container">
         <div class="hero-content">
             <div class="hero-badges">
@@ -610,7 +684,8 @@
                 <span><i class="fas fa-check-circle"></i> UGC Autonomous</span>
                 <span><i class="fas fa-trophy"></i> JNTUH Gold Medalist</span>
             </div>
-            <h1>Shape Your Future at <span>MTIET</span></h1>
+            <h1>Shape Your Future at <span class="gradient-text">MTIET</span></h1>
+            <h1 style="font-size:1.8rem;margin-top:0.3rem"><span id="typewriter"></span><span class="typewriter-cursor"></span></h1>
             <p class="tagline">
                 <i class="fas fa-quote-left"></i> Empowering minds with world-class engineering education, 
                 innovation, and industry excellence. Your journey to becoming a global tech leader starts here.
@@ -722,6 +797,46 @@
     </div>
 </section>
 
+<section class="section" id="campus-life">
+    <div class="container">
+        <div class="section-title reveal">
+            <div class="line"></div>
+            <h2>Campus <span>Virtual Tour</span></h2>
+            <p>Explore our 120-acre smart campus through this interactive visual guide.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center">
+            <div class="reveal-left">
+                <img src="{% static 'images/campus.svg' %}" alt="MTIET Campus" style="width:100%;border-radius:20px;box-shadow:var(--shadow);background:#fff;padding:10px">
+            </div>
+            <div class="reveal-right">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                    <div style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
+                        <i class="fas fa-building" style="font-size:2rem;color:var(--primary)"></i>
+                        <h4 style="margin-top:0.5rem;font-size:0.95rem;color:var(--primary)">Smart Classrooms</h4>
+                        <p style="font-size:0.8rem;color:#888">50+ tech-enabled rooms</p>
+                    </div>
+                    <div style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
+                        <i class="fas fa-flask" style="font-size:2rem;color:var(--accent)"></i>
+                        <h4 style="margin-top:0.5rem;font-size:0.95rem;color:var(--primary)">Advanced Labs</h4>
+                        <p style="font-size:0.8rem;color:#888">25+ specialized labs</p>
+                    </div>
+                    <div style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
+                        <i class="fas fa-book" style="font-size:2rem;color:#2e7d32"></i>
+                        <h4 style="margin-top:0.5rem;font-size:0.95rem;color:var(--primary)">Central Library</h4>
+                        <p style="font-size:0.8rem;color:#888">69,000+ books</p>
+                    </div>
+                    <div style="background:#fff;border-radius:16px;padding:1.2rem;text-align:center;box-shadow:var(--shadow)">
+                        <i class="fas fa-running" style="font-size:2rem;color:#e65100"></i>
+                        <h4 style="margin-top:0.5rem;font-size:0.95rem;color:var(--primary)">Sports Complex</h4>
+                        <p style="font-size:0.8rem;color:#888">10-acre facility</p>
+                    </div>
+                </div>
+                <p style="margin-top:1.5rem;color:#555;line-height:1.7;font-size:0.95rem"><i class="fas fa-quote-left" style="color:var(--accent);margin-right:0.5rem"></i>Our campus is designed to inspire innovation, foster creativity, and provide an unparalleled learning environment for every student.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="section section-alt" id="courses">
     <div class="container">
         <div class="section-title">
@@ -730,32 +845,32 @@
             <p>High-demand programs designed to shape future-ready professionals with industry-aligned curriculum and hands-on learning.</p>
         </div>
         <div class="courses-grid">
-            <div class="course-card">
+            <div class="course-card tilt-card">
                 <div class="icon"><i class="fas fa-laptop-code"></i></div>
                 <h3>B.Tech CSE</h3>
                 <p>Build cutting-edge software applications, master full-stack development, and become a leader in the tech industry.</p>
             </div>
-            <div class="course-card">
+            <div class="course-card tilt-card">
                 <div class="icon"><i class="fas fa-robot"></i></div>
                 <h3>B.Tech CSE (AI & ML)</h3>
                 <p>Develop intelligent systems, deep learning models, and AI-powered solutions for real-world problems.</p>
             </div>
-            <div class="course-card">
+            <div class="course-card tilt-card">
                 <div class="icon"><i class="fas fa-chart-bar"></i></div>
                 <h3>B.Tech AI & Data Science</h3>
                 <p>Master data analytics, big data processing, and become a data engineer driving business insights.</p>
             </div>
-            <div class="course-card">
+            <div class="course-card tilt-card">
                 <div class="icon"><i class="fas fa-microchip"></i></div>
                 <h3>Diploma in Engineering</h3>
                 <p>Practical, hands-on diploma programs in CSE and Embedded Systems to kickstart your engineering career.</p>
             </div>
-            <div class="course-card">
+            <div class="course-card tilt-card">
                 <div class="icon"><i class="fas fa-pills"></i></div>
                 <h3>B.Pharmacy</h3>
                 <p>Comprehensive pharmacy education blending pharmaceutical sciences with practical clinical training.</p>
             </div>
-            <div class="course-card">
+            <div class="course-card tilt-card">
                 <div class="icon"><i class="fas fa-cogs"></i></div>
                 <h3>M.Tech Programs</h3>
                 <p>Advanced specialization in emerging fields with research-focused curriculum and industry projects.</p>
@@ -794,6 +909,29 @@
     </div>
 </section>
 
+<section class="section section-alt" id="faculty">
+    <div class="container">
+        <div class="section-title reveal">
+            <div class="line"></div>
+            <h2>Our <span>Faculty</span></h2>
+            <p>Experienced educators and industry experts dedicated to shaping the next generation of engineers.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2rem">
+            {% for d in dept_stats %}
+            <div class="dept-card" style="text-align:center" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.transform='';this.style.boxShadow='var(--shadow)'">
+                <div style="width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem;font-weight:bold">{{ d.name|first }}</div>
+                <h3>Prof. {{ d.name }}</h3>
+                <p style="color:var(--accent);font-weight:600;font-size:0.85rem">Head of Department</p>
+                <p style="font-size:0.82rem;color:#888;margin-top:0.5rem">Ph.D, {{ d.n }}+ Students Mentored</p>
+                <div style="display:flex;justify-content:center;gap:0.5rem;margin-top:0.8rem">
+                    <span style="background:#e8eaf6;padding:0.2rem 0.6rem;border-radius:6px;font-size:0.7rem;color:var(--primary)"><i class="fas fa-star"></i> {{ d.avg_marks|floatformat:0 }}%</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
 <section class="section" id="departments">
     <div class="container">
         <div class="section-title">
@@ -809,6 +947,7 @@
                 </div>
                 <h3>{{ dept.name }}</h3>
                 <p>{{ dept.n }} Students &middot; Avg {{ dept.avg_marks|floatformat:0 }}%</p>
+                <div class="progress-bar"><div class="progress-fill" data-width="{{ dept.avg_marks|floatformat:0 }}"></div></div>
             </div>
             {% empty %}
             <div class="dept-card">
@@ -951,6 +1090,32 @@
     </div>
 </section>
 
+<section class="section" id="events">
+    <div class="container">
+        <div class="section-title reveal">
+            <div class="line"></div>
+            <h2>Recent <span>Events</span></h2>
+            <p>Stay updated with the latest happenings, workshops, and celebrations at MTIET.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center">
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <div class="content"><h4><i class="fas fa-laptop-code" style="color:var(--accent);margin-right:0.5rem"></i>AI & ML Workshop</h4><p>Hands-on workshop on Artificial Intelligence with industry experts from Google.</p><small style="color:#999">March 2026</small></div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="content"><h4><i class="fas fa-trophy" style="color:var(--accent);margin-right:0.5rem"></i>Annual Tech Fest 2026</h4><p>Students showcased innovative projects in robotics, AI, and sustainable technology.</p><small style="color:#999">February 2026</small></div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="content"><h4><i class="fas fa-briefcase" style="color:var(--accent);margin-right:0.5rem"></i>Placement Drive 2026</h4><p>Over 50 companies participated with 895+ offers rolled out to students.</p><small style="color:#999">January 2026</small></div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="content"><h4><i class="fas fa-flask" style="color:var(--accent);margin-right:0.5rem"></i>Research Symposium</h4><p>Faculty and students presented 50+ research papers in emerging technologies.</p><small style="color:#999">December 2025</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="section" id="presentations">
     <div class="container">
         <div class="section-title">
@@ -1058,86 +1223,143 @@
 </button>
 
 <script>
-    function toggleMenu() {
-        document.getElementById('navLinks').classList.toggle('open');
-        document.getElementById('hamburger').classList.toggle('active');
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('active');
+}
+
+let currentSlide = 0;
+const slides = document.querySelectorAll('#slides .slide');
+const totalSlides = slides.length;
+const dotsContainer = document.getElementById('dots');
+if (slides.length > 0) {
+    for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('span');
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
     }
+    updateDots();
+}
+function goToSlide(n) {
+    currentSlide = n;
+    if (currentSlide < 0) currentSlide = totalSlides - 1;
+    if (currentSlide >= totalSlides) currentSlide = 0;
+    const offset = -currentSlide * 100;
+    document.getElementById('slides').style.transform = 'translateX(' + offset + '%)';
+    updateDots();
+}
+function nextSlide() { goToSlide(currentSlide + 1); }
+function prevSlide() { goToSlide(currentSlide - 1); }
+function updateDots() {
+    document.querySelectorAll('#dots span').forEach(function(d, i) { d.classList.toggle('active', i === currentSlide); });
+}
+setInterval(nextSlide, 4000);
 
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('#slides .slide');
-    const totalSlides = slides.length;
-    const dotsContainer = document.getElementById('dots');
-
-    if (slides.length > 0) {
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('span');
-            dot.onclick = () => goToSlide(i);
-            dotsContainer.appendChild(dot);
-        }
-        updateDots();
-    }
-
-    function goToSlide(n) {
-        currentSlide = n;
-        if (currentSlide < 0) currentSlide = totalSlides - 1;
-        if (currentSlide >= totalSlides) currentSlide = 0;
-        const offset = -currentSlide * 100;
-        document.getElementById('slides').style.transform = `translateX(${offset}%)`;
-        updateDots();
-    }
-
-    function nextSlide() { goToSlide(currentSlide + 1); }
-    function prevSlide() { goToSlide(currentSlide - 1); }
-
-    function updateDots() {
-        const dots = document.querySelectorAll('#dots span');
-        dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
-    }
-
-    setInterval(nextSlide, 4000);
-
-    window.addEventListener('scroll', () => {
-        const btn = document.getElementById('scrollTop');
-        btn.classList.toggle('visible', window.scrollY > 400);
-        animateCounters();
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                document.getElementById('navLinks')?.classList.remove('open');
-            }
-        });
-    });
-
-    let countersAnimated = false;
-    function animateCounters() {
-        if (countersAnimated) return;
-        const stats = document.querySelector('.stats-row');
-        if (!stats) return;
-        const rect = stats.getBoundingClientRect();
-        if (rect.top < window.innerHeight) {
-            countersAnimated = true;
-            document.querySelectorAll('.stat-card .num').forEach(el => {
-                const target = parseInt(el.textContent);
-                if (isNaN(target)) return;
-                let current = 0;
-                const step = Math.ceil(target / 40);
-                const timer = setInterval(() => {
-                    current += step;
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(timer);
-                    }
-                    el.textContent = current + (el.textContent.includes('+') ? '+' : '');
-                }, 30);
-            });
-        }
-    }
+window.addEventListener('scroll', function() {
+    document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 400);
     animateCounters();
+});
+document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); document.getElementById('navLinks')?.classList.remove('open'); }
+    });
+});
+
+var countersAnimated = false;
+function animateCounters() {
+    if (countersAnimated) return;
+    var stats = document.querySelector('.stats-row');
+    if (!stats) return;
+    var rect = stats.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+        countersAnimated = true;
+        document.querySelectorAll('.stat-card .num').forEach(function(el) {
+            var target = parseInt(el.textContent);
+            if (isNaN(target)) return;
+            var current = 0;
+            var step = Math.ceil(target / 40);
+            var hasPlus = el.textContent.indexOf('+') !== -1;
+            var timer = setInterval(function() {
+                current += step;
+                if (current >= target) { current = target; clearInterval(timer); }
+                el.textContent = current + (hasPlus ? '+' : '');
+            }, 30);
+        });
+    }
+}
+animateCounters();
+
+// Scroll Reveal
+var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            var fill = entry.target.querySelector('.progress-fill');
+            if (fill) { fill.style.width = fill.getAttribute('data-width') + '%'; }
+        }
+    });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(function(el) { revealObserver.observe(el); });
+
+// 3D Tilt
+document.querySelectorAll('.tilt-card').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var centerX = rect.width / 2;
+        var centerY = rect.height / 2;
+        var rotateX = (y - centerY) / 15;
+        var rotateY = (centerX - x) / 15;
+        card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale3d(1.02,1.02,1.02)';
+    });
+    card.addEventListener('mouseleave', function() { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)'; });
+});
+
+// Particles
+var hero = document.querySelector('.hero');
+if (hero) {
+    var particlesContainer = hero.querySelector('.particles');
+    if (particlesContainer) {
+        for (var i = 0; i < 30; i++) {
+            var p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.width = p.style.height = (2 + Math.random() * 6) + 'px';
+            p.style.animationDuration = (10 + Math.random() * 20) + 's';
+            p.style.animationDelay = Math.random() * 10 + 's';
+            particlesContainer.appendChild(p);
+        }
+    }
+}
+
+// Typewriter Effect
+var typewriterEl = document.getElementById('typewriter');
+if (typewriterEl) {
+    var phrases = ['Excellence in Engineering Education', 'Where Innovation Meets Opportunity', 'Building Future Tech Leaders', 'NAAC A Grade | UGC Autonomous'];
+    var pi = 0, ci = 0, isDeleting = false, speed = 80;
+    function typeEffect() {
+        var current = phrases[pi];
+        if (!isDeleting) {
+            typewriterEl.textContent = current.substring(0, ci + 1);
+            ci++;
+            if (ci === current.length) { isDeleting = true; setTimeout(typeEffect, 2000); return; }
+        } else {
+            typewriterEl.textContent = current.substring(0, ci - 1);
+            ci--;
+            if (ci === 0) { isDeleting = false; pi = (pi + 1) % phrases.length; }
+        }
+        setTimeout(typeEffect, isDeleting ? 30 : speed);
+    }
+    typeEffect();
+}
+
+// Scrolled navbar
+window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
 </script>
 </body>
 </html>

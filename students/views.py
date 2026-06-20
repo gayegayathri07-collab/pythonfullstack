@@ -13,7 +13,7 @@ def landing(request):
     dept_stats = Department.objects.annotate(n=Count('students'), avg_marks=Avg('students__marks'))
     total_students = Student.objects.count()
     total_depts = Department.objects.count()
-    top_students = Student.objects.select_related('department').order_by('-marks')[:6]
+    top_students = Student.objects.select_related('department').order_by('-marks')[:8]
     latest_students = Student.objects.select_related('department').order_by('-admitted')[:6]
 
     today = timezone.now().date()
@@ -32,6 +32,14 @@ def landing(request):
             'marks': s.marks,
         })
 
+    dept_progress = []
+    for d in dept_stats:
+        dept_progress.append({
+            'name': d.name,
+            'count': d.n,
+            'avg': round(d.avg_marks or 0),
+        })
+
     return render(request, "students/landing.html", {
         'dept_stats': dept_stats,
         'total_students': total_students,
@@ -40,7 +48,8 @@ def landing(request):
         'latest_students': latest_students,
         'testimonials': testimonials,
         'attendance_pct': attendance_pct,
-        'avg_marks': Student.objects.aggregate(avg=Avg('marks'))['avg'] or 0,
+        'avg_marks': round(Student.objects.aggregate(avg=Avg('marks'))['avg'] or 0),
+        'dept_progress': dept_progress,
     })
 
 def dashboard(request):
